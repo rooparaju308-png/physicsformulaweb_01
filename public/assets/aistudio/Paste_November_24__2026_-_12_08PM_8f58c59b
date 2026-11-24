@@ -1,0 +1,673 @@
+CLASS 12 • CHAPTER 1: Electric Charges and Fields
+(Very High Weightage)
+Charge & Coulomb's Law
+ * Properties of Charge: Charge is quantised (q = ne, where e = 1.6 \times 10^{-19}\text{ C}), conserved, additive, and invariant (independent of frame speed). Bodies are charged by friction, conduction, or induction.
+ * Coulomb's Law (in vacuum; divide by dielectric constant K when charges are immersed in a medium):
+   
+   
+   Like charges repel; unlike charges attract along the line joining them.
+ * Superposition & Equilibrium:
+   * Forces obey the principle of superposition.
+   * Electric force \gg gravitational force: \frac{F_e}{F_g} \approx 2.3 \times 10^{39} between a proton and an electron, \approx 4.2 \times 10^{42} between two electrons, and \approx 1.2 \times 10^{36} between two protons.
+   * Exam patterns: Coulomb force in vector form from position vectors; three collinear charges in equilibrium (stable/unstable); two hanging charged pith balls at equilibrium (\tan\theta = \frac{F_e}{mg}). (Asked: 2026 • 8 Apr • Evening; 2026 • 2 Apr • Evening)
+Electric Field & Field Lines
+ * Electric Field: Force per unit positive test charge. For a point charge q:
+   
+ * Uniformly Charged Ring (charge Q, radius a), at point P on the axis at distance x:
+   Components perpendicular to the axis cancel in pairs; only axial components add:
+   
+ * Infinite Line Charge (linear charge density \lambda\text{ C/m}), at perpendicular distance r:
+   Field is radial (away for +\lambda) and E \propto 1/r. Using a Gaussian cylinder of length l, E(2\pi r l) = \frac{\lambda l}{\varepsilon_0}:
+   
+ * Finite Line Charge: Angles \theta_1, \theta_2 measured at P from the perpendicular to the two ends:
+   
+   * Infinite line: \theta_1 = \theta_2 = 90^\circ \implies E_\perp = \frac{2k\lambda}{r}, \; E_\parallel = 0.
+   * Semi-infinite line (P opposite one end, \theta_1 = 90^\circ, \theta_2 = 0^\circ): E_\perp = E_\parallel = \frac{k\lambda}{r}, so net field is \frac{\sqrt{2}k\lambda}{r} at 45^\circ to the line.
+   * P on the perpendicular bisector (\theta_1 = \theta_2): E_\parallel = 0.
+ * Uniformly Charged Arc (radius r, density \lambda, subtending angle \theta at centre O):
+   By symmetry, the field at O lies along the angle bisector (away from the arc for +\lambda):
+   
+   * Semicircle (\theta = \pi): E_O = \frac{2k\lambda}{r} = \frac{2kQ}{\pi r^2}.
+   * Quarter circle (\theta = \pi/2): E_O = \frac{\sqrt{2}k\lambda}{r}.
+   * Full ring (\theta = 2\pi): E_O = 0 at the centre, while V_O = \frac{kQ}{r}.
+| Charge Configuration | Electric Field (E) |
+|---|---|
+| Ring (charge Q, radius a), on axis at x | \frac{kQx}{(a^2+x^2)^{3/2}} (zero at centre, max at x = \pm\frac{a}{\sqrt{2}}) |
+| Infinite line charge (\lambda) | \frac{\lambda}{2\pi\varepsilon_0 r} = \frac{2k\lambda}{r} |
+| Finite line, \perp distance r | E_\perp = \frac{k\lambda}{r}(\sin\theta_1 + \sin\theta_2), \; E_\parallel = \frac{k\lambda}{r}\lvert\cos\theta_2 - \cos\theta_1\rvert |
+| Infinite non-conducting sheet (\sigma) | \frac{\sigma}{2\varepsilon_0} |
+| Arc subtending angle \theta at centre | \frac{2k\lambda}{r}\sin\left(\frac{\theta}{2}\right) |
+ * Properties of Electric Field Lines: Start on positive charges and end on negative charges; never intersect; are perpendicular to conductor surfaces in electrostatic equilibrium; line density \propto |\vec{E}|. Electrostatic field lines never form closed loops.
+ * Charged Particle in a Uniform Field: Acceleration \vec{a} = \frac{q\vec{E}}{m}. It follows a parabolic trajectory when projected transverse to \vec{E}.
+   * Millikan oil drop balanced between plates: qE = mg.
+   * Polygon symmetry: Identical charges at all vertices of a regular polygon produce \vec{E} = \vec{0} (but non-zero potential V = \frac{nkq}{r}) at the centre. If one charge is removed, the net field at the centre equals the field of the removed charge in the opposite direction. (Asked: 2026 • 22 Jan • Evening & Morning)
+Electric Dipole
+ * Dipole Moment & Field: \vec{p} = q\vec{d} (directed from -q to +q). Far-field (r \gg d) potential and electric field at (r, \theta):
+   
+ * Dipole in a Uniform Electric Field:
+   * Net force \vec{F}_{\text{net}} = \vec{0}.
+   * Torque: \vec{\tau} = \vec{p} \times \vec{E} (\tau = pE\sin\theta).
+   * Potential energy: U = -\vec{p} \cdot \vec{E} = -pE\cos\theta.
+   * Stable equilibrium at \theta = 0^\circ; unstable equilibrium at \theta = 180^\circ.
+   * Work done by external agent to rotate from \theta_1 to \theta_2: W_{\text{ext}} = U_2 - U_1 = pE(\cos\theta_1 - \cos\theta_2).
+   * Small angular oscillations about stable equilibrium: T = 2\pi\sqrt{\frac{I}{pE}}.
+ * Dipole in a Non-Uniform Field: Experiences both a torque and a net translational force; when aligned with the field along x, F = p\frac{dE}{dx} (along the field gradient). (Asked: 2026 • 2 Apr • Morning; 2026 • 23 Jan • Evening; 2026 • 4 Apr • Evening)
+Flux, Solid Angle & Gauss's Law
+ * Electric Flux:
+   
+ * Solid Angle: d\Omega = \frac{dS\cos\theta}{r^2}\text{ sr}. A full sphere subtends 4\pi\text{ sr}. A cone of semi-vertical angle \alpha subtends \Omega = 2\pi(1 - \cos\alpha).
+ * Gauss's Law: The total electric flux through any closed surface equals \frac{q_{\text{enclosed}}}{\varepsilon_0}:
+   
+   
+   External charges contribute zero net flux, though they do contribute to the electric field \vec{E} at points on the surface.
+ * Cube Symmetry Results (Charge q):
+   * At the centre of a cube: total flux = \frac{q}{\varepsilon_0}; flux through each of the 6 faces = \frac{q}{6\varepsilon_0}.
+   * At a corner (vertex) of a cube: shared by 8 cubes \implies total flux through the cube = \frac{q}{8\varepsilon_0} (0 through the 3 adjacent faces touching the corner, and \frac{q}{24\varepsilon_0} through each of the 3 far faces).
+   * At the centre of a face: shared by 2 cubes \implies total flux through the cube = \frac{q}{2\varepsilon_0}.
+   * At the midpoint of an edge: shared by 4 cubes \implies total flux through the cube = \frac{q}{4\varepsilon_0}.
+Applications of Gauss's Law
+ * General Method: Choose a symmetric Gaussian surface on which E is constant and either \perp or \parallel to d\vec{S}, then apply E \times A_{\text{eff}} = \frac{q_{\text{enc}}}{\varepsilon_0}.
+ * Infinite Line Charge (\lambda): Cylindrical Gaussian surface of radius r, length l. Flux passes only through the curved surface: E(2\pi r l) = \frac{\lambda l}{\varepsilon_0} \implies E = \frac{\lambda}{2\pi\varepsilon_0 r}.
+ * Infinite Non-Conducting Plane Sheet (\sigma): Pillbox across the sheet. Flux leaves both flat ends: 2EA = \frac{\sigma A}{\varepsilon_0} \implies E = \frac{\sigma}{2\varepsilon_0} (uniform, independent of distance).
+ * Two Oppositely Charged Parallel Sheets (\pm\sigma): Fields add between the plates and cancel outside:
+   
+ * Just Outside a Charged Conductor (\sigma): Since E = 0 inside the conductor, a Gaussian pillbox has flux only through its outer face: EA = \frac{\sigma A}{\varepsilon_0} \implies E = \frac{\sigma}{\varepsilon_0} (normal to the surface).
+ * Uniformly Charged Spherical Shell (or Conducting Sphere, charge Q, radius R):
+   
+ * Uniformly Charged Non-Conducting Solid Sphere (charge Q, radius R, volume density \rho = \frac{Q}{\frac{4}{3}\pi R^3}):
+   For r < R, enclosed charge is q_{\text{enc}} = Q\frac{r^3}{R^3}:
+   
+ * Long Uniformly Charged Non-Conducting Solid Cylinder (radius R, volume density \rho, linear density \lambda = \rho\pi R^2):
+   
+ * Earthing Concentric Conductors: Earthing forces a conductor's potential to V = 0:
+   * Inner sphere (radius r_{\text{in}}) earthed inside a shell of radius r_{\text{out}} carrying net charge Q:
+     
+   * Outer shell (radius r_{\text{out}}) earthed while inner sphere carries charge Q:
+     
+CLASS 12 • CHAPTER 2: Electrostatic Potential and Capacitance
+(Very High Weightage)
+Potential Energy, Potential & \vec{E}–V Relation
+ * Potential Energy & Potential:
+   
+   * Work done by the electric field moving charge q from A to B: W_{\text{field}(A \to B)} = -\Delta U = q(V_A - V_B).
+   * Work done by an external agent (quasi-statically) from A to B: W_{\text{ext}(A \to B)} = +\Delta U = q(V_B - V_A).
+ * Superposition: Potential is a scalar (V = \sum V_i). For a system of point charges, sum U_{ij} = \frac{kq_i q_j}{r_{ij}} over all unique pairs.
+ * Electric Field from Potential:
+   
+ * Equipotential Surfaces: Always perpendicular to electric field lines. Zero work is required to move a charge along an equipotential surface.
+Conductors, Insulators & Merging Drops
+ * Conductor in Electrostatic Equilibrium:
+   * \vec{E} = \vec{0} everywhere inside the bulk material.
+   * All net excess charge resides on the outer surface.
+   * The entire conductor (volume and surface) is an equipotential.
+   * Just outside the surface, \vec{E} is perpendicular to the surface with magnitude E = \frac{\sigma}{\varepsilon_0}.
+ * Curvature & Connected Spheres:
+   * Surface charge density is largest where radius of curvature is smallest (\sigma \propto 1/R_{\text{local}}), leading to corona discharge at sharp points.
+   * Two distant conducting spheres of radii r_1, r_2 joined by a thin wire share a common potential (V_1 = V_2):
+     
+ * Merging of n Identical Charged Liquid Drops (each of radius r, charge q, capacitance c, potential v, energy u):
+   
+Capacitance & Combinations
+ * Capacitance (C = Q/V, in farads): Depends only on conductor geometry and the surrounding dielectric medium.
+| Capacitor Type | Capacitance (C) |
+|---|---|
+| Parallel-plate capacitor (area A, separation d) | \frac{\varepsilon_0 A}{d} |
+| Isolated spherical conductor (radius R) | 4\pi\varepsilon_0 R |
+| Spherical capacitor (radii a < b, outer shell earthed) | \frac{4\pi\varepsilon_0 ab}{b - a} |
+| Cylindrical capacitor (length l, radii a < b) | \frac{2\pi\varepsilon_0 l}{\ln(b/a)} |
+ * Parallel-Plate Capacitor with a Dielectric Slab (thickness t < d, dielectric constant K):
+   
+ * Series & Parallel Combinations:
+   * Series (same Q): \frac{1}{C_{\text{eq}}} = \sum \frac{1}{C_i}
+   * Parallel (same V): C_{\text{eq}} = \sum C_i
+ * Partially Filled Parallel-Plate Capacitors:
+   * Side-by-side (area divided, parallel combination): C = \frac{\varepsilon_0}{d}(K_1 A_1 + K_2 A_2). If half the area has dielectric K and half has air: C' = \frac{C(K + 1)}{2}.
+   * Stacked/layered (thickness divided, series combination): \frac{1}{C} = \frac{t_1}{K_1 \varepsilon_0 A} + \frac{t_2}{K_2 \varepsilon_0 A}. If half the thickness has dielectric K and half has air: C' = \frac{2KC}{K + 1}.
+ * Wheatstone Bridge Network: Balanced when \frac{C_1}{C_2} = \frac{C_3}{C_4} (middle capacitor carries zero charge and can be removed).
+Stored Energy, Force & Charge Sharing
+ * Energy Stored & Field Energy Density:
+   
+ * Attractive Force Between Capacitor Plates: Each plate sits in the field of the other single sheet (E_1 = \frac{\sigma}{2\varepsilon_0}):
+   
+ * Charge Sharing Between Two Capacitors (C_1, V_1 and C_2, V_2):
+   * Connected with same polarity (+ to +):
+     
+   * Connected with opposite polarity (+ to -):
+     
+ * Effect of Inserting a Dielectric (K):
+| Quantity | Battery Disconnected (Q = \text{const}) | Battery Connected (V = \text{const}) |
+|---|---|---|
+| Capacitance (C) | K C_0 | K C_0 |
+| Charge (Q) | Q_0 (unchanged) | K Q_0 |
+| Potential Difference (V) | V_0 / K | V_0 (unchanged) |
+| Electric Field (E) | E_0 / K | E_0 (unchanged) |
+| Stored Energy (U) | U_0 / K | K U_0 |
+* Pulling plates apart with battery connected (V constant): U(x) = \frac{\varepsilon_0 A V^2}{2x} \implies \left|\frac{dU}{dx}\right| \propto x^{-2} (and for constant separation speed v, \left|\frac{dU}{dt}\right| \propto x^{-2}).
+Dielectrics, Polarisation & RC Transients
+ * Dielectric Polarisation & Gauss's Law:
+   Induced bound surface charge reduces the internal electric field to E = \frac{E_0}{K}:
+   
+ * Leaky Dielectric & Dielectric Strength:
+   * Dielectric strength = maximum electric field a material can withstand without breakdown (\approx 3 \times 10^6\text{ V/m} for dry air).
+   * For a capacitor filled with a leaky medium of resistivity \rho and dielectric constant K:
+     
+ * RC Circuit Charging & Discharging (time constant \tau = RC):
+   * Charging: q(t) = C\varepsilon\left(1 - e^{-t/RC}\right), \quad i(t) = \frac{\varepsilon}{R}e^{-t/RC}
+   * Discharging: q(t) = Q_0 e^{-t/RC}, \quad i(t) = \frac{Q_0}{RC}e^{-t/RC}
+ * DC Behaviour of a Capacitor:
+   * At t = 0 (uncharged): acts as a short circuit (closed wire).
+   * At t \to \infty (steady state): acts as an open circuit (zero current flows through the capacitor branch).
+CLASS 12 • CHAPTER 3: Current Electricity
+(Very High Weightage)
+Current, Drift Speed & Ohm's Law
+ * Current & Drift Velocity:
+   
+   
+   where \tau is the relaxation time (mean time between successive collisions).
+ * Microscopic & Macroscopic Ohm's Law:
+   
+ * Stretching a Wire (Constant Volume V = Al):
+   * Stretched to n times original length (l' = nl \implies A' = A/n): R' = n^2 R.
+   * Drawn so radius becomes 1/n of original (r' = r/n \implies A' = A/n^2): R' = n^4 R.
+ * Temperature Dependence of Resistivity:
+   
+   * Metals: \alpha > 0 (\rho increases with T as \tau decreases).
+   * Semiconductors & Insulators: \alpha < 0 (\rho decreases exponentially with T as carrier density n increases rapidly).
+   * Standard Resistor Alloys (manganin, constantan, nichrome): high resistivity \rho and very small \alpha.
+EMF, Internal Resistance & Maximum Power Transfer
+ * Terminal Voltage of a Cell (EMF \varepsilon, internal resistance r):
+   
+   * From two external load readings (i_1, R_1) and (i_2, R_2): \varepsilon = i_1(R_1 + r) = i_2(R_2 + r) \implies r = \frac{i_2 R_2 - i_1 R_1}{i_1 - i_2}.
+ * Maximum Power Transfer Theorem:
+   Power delivered to external load R: P = i^2 R = \frac{\varepsilon^2 R}{(R + r)^2}.
+   
+Kirchhoff's Laws, Resistor Networks & Grouping of Cells
+ * Kirchhoff's Laws:
+   * Junction Law (KCL — conservation of charge): \sum i_{\text{in}} = \sum i_{\text{out}}.
+   * Loop Law (KVL — conservation of energy): \sum \Delta V = 0 around any closed loop.
+ * Resistor Combinations:
+   * Series: R_{\text{eq}} = \sum R_i
+   * Parallel: \frac{1}{R_{\text{eq}}} = \sum \frac{1}{R_i}
+   * Uniform wire of total resistance R bent into an equilateral triangle (each side = R/3), measured across two vertices: R_{\text{eq}} = \frac{(R/3)(2R/3)}{R} = \frac{2}{9}R. (If each side has resistance R, R_{\text{eq}} = \frac{2}{3}R).
+ * Grouping of Cells:
+   * n identical cells in series: i = \frac{n\varepsilon}{R + nr} (if m cells are connected in reverse polarity, \varepsilon_{\text{net}} = (n - 2m)\varepsilon, while r_{\text{net}} = nr).
+   * n identical cells in parallel: i = \frac{\varepsilon}{R + r/n}.
+   * Non-identical cells in parallel:
+     
+     
+     (If cell 2 is reversed, replace \varepsilon_2 with -\varepsilon_2; r_{\text{eq}} remains unchanged).
+Measuring Instruments
+ * Wheatstone Bridge & Metre Bridge:
+   * Balanced when \frac{P}{Q} = \frac{R}{S} (zero current through galvanometer G).
+   * Metre Bridge: \frac{R}{S} = \frac{l}{100 - l}. Most sensitive when l \approx 50\text{ cm}. Resistivity of wire S of length L and radius r: \rho = \frac{S\pi r^2}{L}.
+ * Galvanometer Conversions (Resistance G, full-scale current i_g):
+   * To Ammeter (range 0 \to i): Small shunt resistance S in parallel:
+     
+   * To Voltmeter (range 0 \to V): Large resistance R in series:
+     
+ * Potentiometer (Reference — excluded from rationalised syllabus):
+   Potential gradient k = \frac{V_{\text{AB}}}{L}. Compares EMFs at null point without drawing current:
+   
+Joule's Laws of Heating
+ * Electrical Energy & Power:
+   
+ * Bulbs & Heaters (Rated P_1, P_2 at the same rated voltage V_{\text{rated}}):
+   Resistance of an appliance: R = \frac{V_{\text{rated}}^2}{P_{\text{rated}}}.
+   * Connected in series across V_{\text{rated}}: \frac{1}{P_{\text{total}}} = \frac{1}{P_1} + \frac{1}{P_2} (the lower-wattage bulb has higher resistance R and glows brighter because P = i^2 R).
+   * Connected in parallel across V_{\text{rated}}: P_{\text{total}} = P_1 + P_2.
+CLASS 12 • CHAPTER 4: Moving Charges and Magnetism
+(Very High Weightage)
+Lorentz Force & Charged Particle Motion in Uniform \vec{B}
+ * Magnetic & Lorentz Force:
+   
+   
+   Since \vec{F}_B \perp \vec{v} and \vec{F}_B \perp \vec{B} (\vec{a} \cdot \vec{v} = 0 and \vec{a} \cdot \vec{B} = 0), the magnetic force does zero work and never changes a particle's speed or kinetic energy.
+ * Circular Motion (\vec{v} \perp \vec{B}):
+   
+ * Helical Motion (\vec{v} at angle \theta to \vec{B}):
+   
+ * Velocity Selector (Crossed \vec{E} \perp \vec{B} \perp \vec{v}):
+   Net force is zero when qE = qvB \implies v = \frac{E}{B}.
+Magnetic Force on a Current-Carrying Wire & Torque on a Loop
+ * Force on a Wire:
+   * Straight wire of length l: \vec{F} = i(\vec{l} \times \vec{B}).
+   * Arbitrarily curved wire in a uniform \vec{B}: \vec{F} = i(\vec{L}_{\text{eff}} \times \vec{B}), where \vec{L}_{\text{eff}} is the straight displacement vector from start point to end point.
+   * For any closed current loop in a uniform magnetic field, \vec{F}_{\text{net}} = \vec{0}.
+ * Magnetic Dipole Moment & Torque on a Current Loop (N turns):
+   
+   * Watch the angle: \theta is the angle between the area normal \hat{n} and \vec{B}. If \alpha is the angle between the plane of the loop and \vec{B}, then \tau = NiAB\cos\alpha.
+   * Rotating charged body (charge q, mass m): Gyromagnetic ratio is constant: \frac{\mu}{L} = \frac{q}{2m}. For a ring of radius R rotating at angular speed \omega: i = \frac{q\omega}{2\pi} \implies \mu = \frac{1}{2}q\omega R^2. (For a uniformly charged disc: \mu = \frac{1}{4}q\omega R^2; solid sphere: \mu = \frac{1}{5}q\omega R^2).
+Biot–Savart Law & Standard Field Configurations
+ * Biot–Savart Law:
+   
+ * Straight Current-Carrying Wire (at perpendicular distance d, angles \theta_1, \theta_2 from the perpendicular):
+   
+   * Infinite straight wire (\theta_1 = \theta_2 = 90^\circ): B = \frac{\mu_0 i}{2\pi d}.
+   * Semi-infinite straight wire (opposite one end, \theta_1 = 90^\circ, \theta_2 = 0^\circ): B = \frac{\mu_0 i}{4\pi d}.
+   * Point lying on the line of the wire (or its extension): B = 0.
+ * Regular n-Sided Polygon Loop (current i):
+   * In terms of perpendicular distance r from centre to a side (inradius):
+     
+   * In terms of distance R from centre to a vertex (circumradius, r = R\cos\frac{\pi}{n}):
+     
+ * Force Between Two Long Parallel Currents (i_1, i_2 separated by d):
+   
+ * Circular Current Loop & Circular Arc (radius a):
+   
+   
+   Far along the axis (x \gg a): B_{\text{axis}} \approx \frac{\mu_0}{4\pi}\frac{2\mu}{x^3}, where \mu = Ni\pi a^2.
+Ampere's Circuital Law & Galvanometers
+ * Ampere's Circuital Law:
+   
+ * Long Cylindrical Wire (radius R, current i):
+   * Solid cylinder (uniform current density):
+     
+   * Hollow thin cylindrical tube: B_{\text{in}} = 0 (r < R), B_{\text{out}} = \frac{\mu_0 i}{2\pi r} (r > R).
+ * Long Solenoid (n = N/l turns per unit length) & Toroid (N total turns):
+   
+ * Moving-Coil Galvanometer: Radial magnetic field ensures constant maximum torque \tau = NiAB, balanced by restoring spring torque k\theta:
+   
+ * Tangent Galvanometer (Reference): B_{\text{coil}} = B_H\tan\theta \implies \frac{\mu_0 N i}{2r} = B_H\tan\theta.
+CLASS 12 • CHAPTER 5: Magnetism and Matter
+(High Weightage)
+Bar Magnet & Magnetic Dipole
+ * Bar Magnet as an Equivalent Solenoid / Dipole:
+   Pole strength m, magnetic length 2l \approx 0.85 \times L_{\text{geometric}}. Magnetic dipole moment \vec{M} = m(2\vec{l}) (directed from South pole to North pole, in \text{A m}^2 or \text{J/T}).
+ * Torque & Potential Energy in Uniform \vec{B}:
+   
+ * Magnetic Field & Scalar Potential of a Short Dipole (r \gg l):
+   
+ * Gauss's Law for Magnetism:
+   
+   
+   Magnetic monopoles do not exist; magnetic field lines always form closed loops.
+ * Terrestrial Magnetism & Magnetometers (Reference — excluded from rationalised syllabus, though dipole SHM appears):
+   * Horizontal and vertical components with angle of dip \delta: B_H = B\cos\delta, B_V = B\sin\delta, \tan\delta = \frac{B_V}{B_H}.
+   * Apparent dip \delta' in a vertical plane at angle \theta to magnetic meridian: \tan\delta' = \frac{\tan\delta}{\cos\theta}, and in two perpendicular vertical planes: \cot^2\delta = \cot^2\delta_1 + \cot^2\delta_2.
+   * Oscillation period of a magnetic dipole: T = 2\pi\sqrt{\frac{I}{MB_H}} \implies \text{oscillation frequency } f \propto \sqrt{B_H}.
+Magnetisation, Magnetic Intensity & Magnetic Materials
+ * Fundamental Relations (\vec{B}, \vec{H}, \vec{I}):
+   * Magnetisation I (or M_{\text{mag}}) = net magnetic moment per unit volume (\text{A/m}).
+   * Magnetic intensity H = \frac{B_0}{\mu_0} (\text{A/m}; inside a solenoid, H = ni).
+     
+   * Fractional increase in field when a solenoid is filled with material of susceptibility \chi: \frac{\Delta B}{B_0} = \chi.
+| Property | Diamagnetic | Paramagnetic | Ferromagnetic |
+|---|---|---|---|
+| Susceptibility (\chi) | Small, negative (-1 \le \chi < 0) | Small, positive (\chi > 0) | Very large, positive (\chi \gg 1) |
+| Relative Permeability (\mu_r) | 0 \le \mu_r < 1 | \mu_r > 1 (slightly) | \mu_r \gg 1 |
+| In Non-Uniform Field | Moves from stronger to weaker field | Moves from weaker to stronger field | Strongly attracted to stronger field |
+| Temperature Dependence | Independent of T | \chi = \frac{C}{T} (Curie's Law) | \chi = \frac{C}{T - T_c} for T > T_c (Curie–Weiss) |
+| Physical Origin | Induced atomic moments oppose \vec{B} | Permanent atomic dipoles align weakly | Spontaneous alignment in domains |
+| Examples | \text{Bi, Cu, Ag, H}_2\text{O, N}_2; Superconductors (\chi = -1, B = 0) | \text{Al, Na, Ca, O}_2\text{, Pt} | \text{Fe, Co, Ni, Gd, Alnico} |
+ * Hysteresis Loop (Reference):
+   * Retentivity: Value of B remaining when H is reduced to 0.
+   * Coercivity: Reverse H required to reduce B to 0.
+   * Area of B–H loop: Energy dissipated as heat per unit volume per magnetisation cycle.
+   * Permanent magnets (Steel, Alnico): Require high retentivity and high coercivity.
+   * Electromagnets & Transformer cores (Soft Iron): Require high permeability, low coercivity, and narrow hysteresis loop.
+CLASS 12 • CHAPTER 6: Electromagnetic Induction
+(High Weightage)
+Faraday's Law & Lenz's Law
+ * Magnetic Flux & Faraday's Law:
+   
+ * Lenz's Law: The polarity of induced EMF is such that it opposes the change in magnetic flux that produces it. Directly follows from conservation of energy.
+Motional EMF & Induced Electric Field
+ * Motional EMF in a Moving Conductor:
+   
+ * Rotating Conductors in Uniform \vec{B} (\vec{B} \perp plane of rotation):
+   * Rod of length l pivoted at one end: \varepsilon = \frac{1}{2}B\omega l^2 = B\pi f l^2 = BA_{\text{swept}}f.
+   * Rod in radially varying B(r): \varepsilon = \int_0^l B(r)\omega r\,dr.
+   * Rod rotating about its own midpoint: \varepsilon_{\text{end-to-end}} = 0 (both ends are at the same potential relative to the centre).
+   * Conducting disc of radius R (Faraday disc): \varepsilon = \frac{1}{2}B\omega R^2 between centre and rim.
+ * Conducting Rod Sliding on Parallel Rails (circuit resistance R):
+   
+   
+   Terminal velocity is reached when the external driving force (e.g., mg\sin\theta) equals \frac{B^2 l^2 v_T}{R}.
+ * Induced Electric Field from a Time-Varying Magnetic Field:
+   
+   
+   Induced electric field is non-conservative and its field lines form closed loops. For a cylindrical region of radius R with uniform \frac{dB}{dt}:
+   
+ * Eddy Currents: Circulating currents induced in bulk conductors experiencing changing magnetic flux; cause Joule heating and electromagnetic damping. Minimised in transformer cores by using laminated sheets.
+Self-Inductance, Mutual Inductance & LR Circuits
+ * Self-Inductance (L, in henry):
+   
+   * Long solenoid (length l, cross-section A, turn density n = N/l, core relative permeability \mu_r):
+     
+ * Stored Magnetic Energy & Energy Density:
+   
+ * LR Circuit Transients (Time constant \tau = L/R):
+   * Current growth: i(t) = \frac{\varepsilon}{R}\left(1 - e^{-t/\tau}\right)
+   * Current decay: i(t) = i_0 e^{-t/\tau}
+   * DC behaviour of an inductor: At t = 0, acts as an open circuit (current cannot change instantaneously); at t \to \infty (steady state), acts as an ideal short circuit (plain wire).
+ * Mutual Inductance (M):
+   
+   * Two coaxial solenoids (inner radius r_1, common length l):
+     
+   * Small circular loop (radius a) coaxial and concentric with large circular loop (radius R \gg a):
+     
+   * Small loop at the centre of a large square loop of side L (where B_{\text{centre}} = \frac{2\sqrt{2}\mu_0 i}{\pi L}):
+     * If inner loop is a small circle of radius a (A = \pi a^2): M = \frac{2\sqrt{2}\mu_0 a^2}{L}
+     * If inner loop is a small square of side a (A = a^2): M = \frac{2\sqrt{2}\mu_0 a^2}{\pi L}
+ * Combination of Inductors (with no mutual flux coupling):
+   * Series: L_{\text{eq}} = L_1 + L_2 (with coupling: L_{\text{eq}} = L_1 + L_2 \pm 2M)
+   * Parallel: \frac{1}{L_{\text{eq}}} = \frac{1}{L_1} + \frac{1}{L_2}
+CLASS 12 • CHAPTER 7: Alternating Current
+(High Weightage)
+AC Generator, Mean & RMS Values
+ * AC Generator: Coil of N turns, area A, rotating at angular speed \omega in uniform field B:
+   
+ * Average & RMS Values for Sinusoidal AC:
+   
+ * General RMS Results:
+   * Symmetric square wave of amplitude i_0: i_{\text{rms}} = i_0.
+   * Superposition i(t) = a + b\sin(\omega t): i_{\text{rms}} = \sqrt{a^2 + \frac{b^2}{2}}.
+   * Time taken for sinusoidal current to change from peak (i_0) to RMS (i_0/\sqrt{2}) [or from 0 to i_{\text{rms}}]: \Delta t = \frac{T}{8}.
+Phasors, Series LCR Circuit & Resonance
+| Circuit Element | Reactance / Resistance | Phase of Voltage V relative to Current i |
+|---|---|---|
+| Resistor (R) | R (independent of \omega) | In phase (\phi = 0^\circ) |
+| Inductor (L) | X_L = \omega L = 2\pi f L | V leads i by 90^\circ (\pi/2) |
+| Capacitor (C) | X_C = \frac{1}{\omega C} = \frac{1}{2\pi f C} | V lags i by 90^\circ (\pi/2) |
+ * Series LCR Circuit:
+   
+   * X_L > X_C \implies net inductive (V leads i).
+   * X_C > X_L \implies net capacitive (i leads V).
+ * Resonance in Series LCR (X_L = X_C):
+   * Impedance is minimum (Z = R) and current is maximum (i_{\max} = V/R).
+   * Phase angle \phi = 0^\circ and power factor \cos\phi = 1.
+     
+Power in AC, Choke Coil & Transformer
+ * Average Power & Power Factor:
+   
+   * Wattless current: i_{\text{wattless}} = i_{\text{rms}}\sin\phi.
+   * For a purely inductive or purely capacitive circuit (\phi = \pm 90^\circ), \cos\phi = 0 \implies P_{\text{av}} = 0.
+   * Choke coil: High-L, negligible-R inductor used to control AC without dissipating power (\cos\phi \approx 0).
+ * Transformer:
+   
+   * For an ideal transformer (\eta = 100\%, \; P_{\text{out}} = P_{\text{in}}): \frac{V_s}{V_p} = \frac{N_s}{N_p} = \frac{i_p}{i_s}.
+   * Transformer energy losses: Copper loss (i^2 R heating in windings), eddy current loss (reduced by laminated core), hysteresis loss (reduced by soft iron core), and flux leakage.
+ * LC Oscillations (Reference): \omega = \frac{1}{\sqrt{LC}}, \; q(t) = q_0\cos(\omega t), \; i_{\max} = \omega q_0. Total energy \frac{q_0^2}{2C} = \frac{1}{2}L i_{\max}^2 oscillates between electric and magnetic fields.
+CLASS 12 • CHAPTER 8: Electromagnetic Waves
+(High Weightage)
+Displacement Current & Maxwell's Equations
+ * Displacement Current:
+   
+   
+   Total current i_c + i_d is continuous across a charging capacitor (i_d between plates equals conduction current i_c in the leads).
+ * Maxwell's Four Equations:
+   * Gauss's Law for Electricity: \oint \vec{E} \cdot d\vec{S} = \frac{q_{\text{enc}}}{\varepsilon_0}
+   * Gauss's Law for Magnetism: \oint \vec{B} \cdot d\vec{S} = 0
+   * Faraday's Law: \oint \vec{E} \cdot d\vec{l} = -\frac{d\Phi_B}{dt}
+   * Ampere–Maxwell Law: \oint \vec{B} \cdot d\vec{l} = \mu_0\left(i_c + \varepsilon_0\frac{d\Phi_E}{dt}\right)
+Properties of Plane EM Waves, Energy & Momentum
+ * Transverse Wave Relations:
+   * \vec{E} \perp \vec{B} \perp \vec{k}; \vec{E} and \vec{B} oscillate in phase and the wave propagates in the direction of \vec{E} \times \vec{B}.
+     
+   * Produced by accelerated charges (an oscillating charge radiates EM waves at its oscillation frequency).
+   * Ratio of maximum electric force to magnetic force on a charge moving at speed v: \frac{F_E}{F_B} = \frac{qE_0}{qvB_0} = \frac{c}{v}.
+ * Energy Density, Intensity & Radiation Pressure:
+   * Electric and magnetic energy densities are equal: u_E = u_B \implies \langle u_E \rangle = \langle u_B \rangle = \frac{1}{4}\varepsilon_0 E_0^2 = \frac{B_0^2}{4\mu_0}.
+   * Total Average Energy Density:
+     
+   * Intensity:
+     
+   * Momentum & Radiation Pressure (normal incidence):
+     
+Electromagnetic Spectrum
+| Region | Typical Wavelength Range | Source | Common Application |
+|---|---|---|---|
+| Radio Waves | > 0.1\text{ m} | Oscillating LC circuits / antennas | Radio & TV broadcasting |
+| Microwaves | 1\text{ mm} \text{ – } 0.1\text{ m} | Klystron, magnetron, Gunn diode | Radar, satellite links, microwave ovens |
+| Infrared (IR) | 700\text{ nm} \text{ – } 1\text{ mm} | Hot bodies, vibrational transitions | Thermal imaging, TV remotes, greenhouse effect |
+| Visible Light | 400\text{ nm} \text{ – } 700\text{ nm} | Atomic outer-shell electron transitions | Human vision, photography |
+| Ultraviolet (UV) | 1\text{ nm} \text{ – } 400\text{ nm} | Sun, mercury vapour arc, inner transitions | Water sterilisation, LASIK (absorbed by ozone) |
+| X-Rays | 0.01\text{ nm} \text{ – } 10\text{ nm} | X-ray tubes (high-energy electrons hitting target) | Medical radiography, crystal diffraction |
+| Gamma (\gamma) Rays | < 0.01\text{ nm} | Radioactive nuclear decay | Cancer radiotherapy, nuclear reactions |
+CLASS 12 • CHAPTER 9: Ray Optics and Optical Instruments
+(Very High Weightage)
+Reflection at Plane & Spherical Mirrors
+ * Plane Mirrors:
+   * Forms a virtual, erect, laterally inverted, same-size image at equal distance behind the mirror (v = -u).
+   * Rotating a plane mirror by angle \theta (with incident ray fixed) rotates the reflected ray by 2\theta.
+   * Two plane mirrors inclined at angle \theta (let m = \frac{360^\circ}{\theta}):
+     * If m is an even integer: number of images n = m - 1 for all object positions.
+     * If m is an odd integer: n = m - 1 (if object is on the angle bisector) and n = m (if off the bisector).
+ * Spherical Mirrors (f = R/2):
+   
+   * Sign convention: All distances measured from the pole P; direction of incident light is positive (f < 0 for concave mirror, f > 0 for convex mirror).
+   * Longitudinal magnification for a very short axial object (du): m_L = \frac{dv}{du} = -m^2. For a finite rod along the axis, find v_1 and v_2 for the two ends separately.
+   * For a concave mirror producing magnification of magnitude |m| at two object distances u_1 (real image) and u_2 (virtual image): |u| = |f|\left(1 \pm \frac{1}{|m|}\right) and \frac{u_1 + u_2}{2} = |f|.
+Refraction at Plane Surfaces, TIR & Prisms
+ * Snell's Law, Apparent Depth & Shift:
+   
+ * Critical Angle & Total Internal Reflection (Denser to Rarer Medium):
+   
+   * Circle of illumination on water surface above a point source at depth h:
+     
+ * Refraction Through a Prism (Apex angle A):
+   
+   * Minimum Deviation (i = e \implies r_1 = r_2 = A/2, ray inside parallel to symmetric base):
+     
+     * For an equilateral prism (A = 60^\circ): if \delta_m = 30^\circ = A/2 \implies \mu = \sqrt{2}; if \delta_m = 60^\circ = A \implies \mu = \sqrt{3}.
+     * In general, if \delta_m = A \implies \mu = 2\cos(A/2).
+   * Thin Prism (A \le 10^\circ): \delta = (\mu - 1)A (independent of small angle of incidence i).
+   * Grazing Emergence (e = 90^\circ): r_2 = C \implies r_1 = A - C.
+   * Condition for No Emergence (TIR for all angles of incidence): A > 2C.
+Refraction at Spherical Surfaces & Thin Lenses
+ * Single Spherical Refracting Surface (light travelling from \mu_1 to \mu_2):
+   
+ * Lens Maker's Formula & Thin Lens Formula:
+   
+   * Equiconvex lens (R_1 = +R, R_2 = -R) with \mu = 1.5 in air: f = R.
+   * Cut vertically (perpendicular to principal axis) into two plano-convex lenses: focal length of each half doubles (f' = 2f).
+   * Cut horizontally (along principal axis): focal length remains unchanged (f' = f), intensity reduces.
+   * Displacement method: f = \frac{D^2 - d^2}{4D} (requires screen distance D \ge 4f, and h_o = \sqrt{h_1 h_2}).
+ * Combination of Thin Lenses & Silvered Lens:
+   * In contact: \frac{1}{F} = \frac{1}{f_1} + \frac{1}{f_2}, \quad P = P_1 + P_2.
+   * Separated by distance d: \frac{1}{F} = \frac{1}{f_1} + \frac{1}{f_2} - \frac{d}{f_1 f_2}, \quad P = P_1 + P_2 - d P_1 P_2.
+   * Silvered Lens (behaves as an equivalent spherical mirror):
+     
+ * Dispersion by a Thin Prism (Reference):
+   * Angular dispersion: \theta = \delta_v - \delta_r = (\mu_v - \mu_r)A.
+   * Dispersive power: \omega = \frac{\delta_v - \delta_r}{\delta_y} = \frac{\mu_v - \mu_r}{\mu_y - 1}.
+Optical Instruments
+ * Simple Microscope (Magnifying Glass, near point D = 25\text{ cm}):
+   
+ * Compound Microscope:
+   
+ * Astronomical Refracting Telescope:
+   
+CLASS 12 • CHAPTER 10: Wave Optics
+(High Weightage)
+Huygens' Principle & Interference (YDSE)
+ * Wavefront & Refraction: Every point on a wavefront acts as a source of secondary spherical wavelets. Upon entering a medium of refractive index \mu:
+   
+ * Coherent Superposition of Two Waves:
+   
+   
+   For two equal-intensity sources (I_1 = I_2 = I_0):
+   
+ * Young's Double Slit Experiment (Slit separation d, screen distance D \gg d):
+   * Path difference: \Delta x = d\sin\theta \approx \frac{yd}{D}.
+   * Bright fringes (maxima, \Delta x = n\lambda): y_n = \frac{n\lambda D}{d} (n = 0, \pm 1, \pm 2, \dots).
+   * Dark fringes (minima, \Delta x = \left(n + \frac{1}{2}\right)\lambda): y_n = \left(n + \frac{1}{2}\right)\frac{\lambda D}{d} (n = 0, 1, 2, \dots).
+   * Fringe width: \beta = \frac{\lambda D}{d}, Angular fringe width: \theta_0 = \frac{\beta}{D} = \frac{\lambda}{d}.
+   * Immersed in liquid of index \mu: \beta' = \frac{\beta}{\mu} and \theta_0' = \frac{\theta_0}{\mu}.
+ * Optical Path & Thin-Sheet Shift in YDSE:
+   Inserting a transparent sheet of thickness t and index \mu in front of one slit adds optical path (\mu - 1)t and shifts the entire fringe pattern towards the covered slit by:
+   
+ * Thin-Film Interference in Reflected Light (film of thickness d, index \mu surrounded by air, near-normal incidence):
+   * Constructive (Bright): 2\mu d = \left(n + \frac{1}{2}\right)\lambda
+   * Destructive (Dark): 2\mu d = n\lambda
+Diffraction & Resolving Power
+ * Fraunhofer Single-Slit Diffraction (Slit width b or a):
+   * Condition for Minima (Dark fringes): b\sin\theta = n\lambda (n = \pm 1, \pm 2, \pm 3, \dots).
+   * Secondary Maxima: b\sin\theta \approx \left(n + \frac{1}{2}\right)\lambda (n = \pm 1, \pm 2, \dots).
+   * Angular width of Central Maximum: 2\theta_1 = \frac{2\lambda}{b}.
+   * Linear width of Central Maximum: W_c = \frac{2\lambda D}{b} (twice the width of any secondary maximum).
+   * Distance between 1st and 3rd minima on the same side: y_3 - y_1 = \frac{2\lambda D}{b} (on opposite sides: \frac{4\lambda D}{b}).
+ * Limit of Resolution (Rayleigh Criterion):
+   * Telescope (objective diameter D): \Delta\theta = \frac{1.22\lambda}{D} (\text{RP} = \frac{1}{\Delta\theta} = \frac{D}{1.22\lambda}).
+   * Microscope: d_{\min} = \frac{1.22\lambda}{2\mu\sin\theta} (\text{RP} = \frac{1}{d_{\min}} = \frac{2\mu\sin\theta}{1.22\lambda}).
+Polarisation of Light
+ * Malus's Law:
+   * Unpolarised light of intensity I_0 passing through the first ideal polariser always emerges with intensity I_1 = \frac{I_0}{2}.
+   * Polarised light of intensity I_1 passing through an analyser whose pass-axis is at angle \theta to the polarisation direction:
+     
+ * Brewster's Law (Polarisation by Reflection):
+   When light is incident at the Brewster (polarising) angle \theta_B, the reflected light is 100% plane-polarised perpendicular to the plane of incidence, and the reflected and refracted rays are mutually perpendicular:
+   
+CLASS 12 • CHAPTER 11: Dual Nature of Radiation and Matter
+(High Weightage)
+Photon Theory & Photoelectric Effect
+ * Photon Properties:
+   
+   * Photon flux (number of photons emitted/incident per second) for beam power P:
+     
+   * Radiation force on a surface (normal incidence): F = \frac{P}{c} (100% absorbing), F = \frac{2P}{c} (100% reflecting).
+ * Einstein's Photoelectric Equation:
+   
+   
+   where \phi = h\nu_0 = \frac{hc}{\lambda_0} is the work function and V_0 is the stopping potential.
+ * Key Experimental Laws:
+   * No photoemission occurs if \nu < \nu_0 (or \lambda > \lambda_0), regardless of light intensity.
+   * Stopping potential V_0 and K_{\max} depend linearly on frequency \nu and are independent of intensity:
+     
+   * Saturation photocurrent is directly proportional to light intensity (for \nu > \nu_0).
+Matter Waves (de Broglie Hypothesis)
+ * de Broglie Wavelength:
+   
+   * For an electron accelerated through potential difference V (in volts):
+     
+   * For a gas particle in thermal equilibrium at temperature T (K = \frac{3}{2}k_B T):
+     
+ * Important Scaling Ratios & Time-Dependent Field Motion:
+   * At equal accelerating potential V: \lambda \propto \frac{1}{\sqrt{mq}} \implies \frac{\lambda_e}{\lambda_p} = \sqrt{\frac{m_p}{m_e}}, and \lambda_p : \lambda_d : \lambda_\alpha = 1 : \frac{1}{\sqrt{2}} : \frac{1}{2\sqrt{2}}.
+   * At equal kinetic energy K: \lambda \propto \frac{1}{\sqrt{m}}.
+   * At equal de Broglie wavelength \lambda: momenta are equal (p_1 = p_2), so K = \frac{p^2}{2m} \propto \frac{1}{m}.
+   * Particle with initial velocity \vec{v}_0 \parallel \vec{E} accelerated by uniform electric field:
+     
+CLASS 12 • CHAPTER 12: Atoms
+(Very High Weightage)
+Rutherford \alpha-Scattering & Distance of Closest Approach
+ * Rutherford Scattering Relations:
+   * Distance of closest approach (head-on collision, impact parameter b = 0):
+     
+   * Impact parameter & scattering angle \theta:
+     
+Bohr's Model for Hydrogen-Like Atoms (Z)
+ * Bohr's Postulates:
+   
+   * de Broglie standing-wave condition: 2\pi r_n = n\lambda.
+ * Orbital Radius, Speed & Energy in the n-th Stationary State:
+   
+   * Time period & current of orbiting electron: T_n \propto \frac{n^3}{Z^2}, \quad i_n \propto \frac{Z^2}{n^3}.
+   * Magnetic field at the nucleus: B_n = \frac{\mu_0 i_n}{2r_n} \propto \frac{Z^3}{n^5}.
+   * Orbital magnetic dipole moment: \mu_n = \frac{neh}{4\pi m_e} = n\mu_B.
+Hydrogen Spectrum
+ * Rydberg Formula (R = 1.097 \times 10^7\text{ m}^{-1}, \; Rch = 13.6\text{ eV}):
+   
+| Spectral Series | Final Level (n_f) | Initial Levels (n_i) | Spectral Region |
+|---|---|---|---|
+| Lyman | 1 | 2, 3, 4, \dots | Ultraviolet (UV) |
+| Balmer | 2 | 3, 4, 5, \dots | Visible (\text{H}_\alpha = 656\text{ nm}, \text{H}_\beta = 486\text{ nm}) |
+| Paschen | 3 | 4, 5, 6, \dots | Near Infrared (IR) |
+| Brackett | 4 | 5, 6, 7, \dots | Infrared (IR) |
+| Pfund | 5 | 6, 7, 8, \dots | Far Infrared (IR) |
+ * Spectral Line Count & Atomic Recoil:
+   * Maximum number of spectral lines emitted by a gas sample excited to level n returning to ground state: N = \frac{n(n - 1)}{2} (or from n_2 to n_1: \frac{(n_2 - n_1)(n_2 - n_1 + 1)}{2}).
+   * Recoil momentum & kinetic energy of atom of mass M emitting photon \Delta E:
+     
+CLASS 12 • CHAPTER 13: Nuclei
+(Very High Weightage)
+Nuclear Size, Mass Defect & Binding Energy
+ * Nuclear Composition & Radius:
+   For nuclide {}_Z^A X: Z protons, N = A - Z neutrons. 1\text{ u} = 1.6605 \times 10^{-27}\text{ kg} \equiv 931.5\text{ MeV}/c^2.
+   
+   * Nuclear density: \rho = \frac{A m_N}{\frac{4}{3}\pi R_0^3 A} = \frac{3m_N}{4\pi R_0^3} \approx 2.3 \times 10^{17}\text{ kg/m}^3 (independent of mass number A).
+ * Mass Defect & Binding Energy:
+   
+   * \text{BE}/A peaks at \approx 8.8\text{ MeV} for {}^{56}\text{Fe} and is nearly constant (\sim 8\text{ MeV}) for 30 < A < 170 due to short-range saturation of the strong nuclear force.
+ * Reaction Q-Value:
+   
+   * Q > 0 \implies exothermic (spontaneous/energy-releasing); Q < 0 \implies endothermic.
+Nuclear Reactions, Fission, Fusion & Decay
+ * Radioactive Decay Modes:
+   * \alpha-decay ({}_Z^A X \to {}_{Z-2}^{A-4}Y + {}_2^4\text{He}): By momentum conservation from rest, the \alpha-particle carries most of the kinetic energy:
+     
+   * \beta^--decay: n \to p + e^- + \bar{\nu}_e (Z \to Z + 1, A unchanged).
+   * \beta^+-decay: p \to n + e^+ + \nu_e (Z \to Z - 1, A unchanged; occurs only inside a nucleus since m_p < m_n).
+   * \gamma-decay: Excited nucleus de-excites by emitting a photon (A and Z unchanged).
+ * Radioactive Decay Law (Reference — excluded from rationalised Physics syllabus):
+   
+   * Parallel decay modes (\lambda_1, \lambda_2): \lambda_{\text{eff}} = \lambda_1 + \lambda_2 \implies \frac{1}{T_{\text{eff}}} = \frac{1}{T_1} + \frac{1}{T_2}.
+ * Nuclear Fission & Fusion:
+   * Fission: {}_{92}^{235}\text{U} + {}_0^1 n \to \text{fragments} + 2.5\,n + 200\text{ MeV}.
+   * Fusion: 4\,{}_1^1\text{H} \to {}_2^4\text{He} + 2e^+ + 2\nu_e + 26.7\text{ MeV} (requires T \sim 10^7\text{ K} to overcome Coulomb repulsion; yields higher energy per unit mass than fission).
+CLASS 12 • CHAPTER 14: Semiconductor Electronics
+(Very High Weightage)
+Energy Bands & Carrier Concentrations
+ * Classification by Band Gap (E_g):
+   * Conductors: Overlapping valence and conduction bands (E_g \approx 0).
+   * Semiconductors: E_g \sim 1\text{ eV} (\text{Si} = 1.1\text{ eV}, \text{Ge} = 0.7\text{ eV}). Negative temperature coefficient of resistivity.
+   * Insulators: E_g > 3\text{ eV}.
+ * Intrinsic & Extrinsic Semiconductors:
+   * Intrinsic: n_e = n_h = n_i.
+   * n-type: Pentavalent donor impurities (\text{P, As, Sb}); n_e \approx N_D \gg n_h. Donor energy level lies just below the conduction band (\sim 0.01\text{–}0.05\text{ eV}).
+   * p-type: Trivalent acceptor impurities (\text{B, Al, In, Ga}); n_h \approx N_A \gg n_e. Acceptor energy level lies just above the valence band.
+   * Both n-type and p-type semiconductors are macroscopically electrically neutral.
+   * Mass-Action Law & Conductivity:
+     
+p–n Junction Diode, Rectifiers & Optoelectronic Devices
+ * p–n Junction & Depletion Layer:
+   * Diffusion of majority carriers leaves uncovered immobile ions, creating a space-charge depletion region and barrier electric field (barrier potential V_B \approx 0.7\text{ V} for \text{Si}, \approx 0.3\text{ V} for \text{Ge}).
+   * Charge equality across the junction (N_A x_p = N_D x_n) means the depletion region penetrates deeper into the more lightly doped side.
+   * Forward bias: Lowers barrier, narrows depletion layer; majority-carrier current (in \text{mA}).With threshold drop V_D, i = \frac{V - V_D}{R}.
+   * Reverse bias: Raises barrier, widens depletion layer; small saturation current (in \mu\text{A}) due to minority carriers.
+ * Rectifiers:
+   * Half-Wave Rectifier: Conducts during one half-cycle; output ripple frequency = f_{\text{in}}.
+   * Full-Wave Rectifier (Centre-Tap or Bridge): Conducts during both half-cycles; output ripple frequency = 2f_{\text{in}}.
+| Special Diode | Operating Bias | Key Principle & Condition |
+|---|---|---|
+| LED | Forward biased | Heavily doped; spontaneous radiative recombination (\lambda = \frac{hc}{E_g}) |
+| Photodiode | Reverse biased | Fractional change in minority current \propto incident light intensity (h\nu > E_g) |
+| Solar Cell | No external bias (4th quadrant of I–V) | Photovoltaic generation (E_g \approx 1.4\text{–}1.5\text{ eV} for max solar absorption) |
+| Zener Diode | Reverse biased (in breakdown) | Heavily doped, sharp breakdown voltage V_Z; used as DC voltage regulator |
+ * Zener Diode Voltage Regulator:
+   For input voltage V_{\text{in}}, series resistor R_s, and load resistor R_L across a Zener diode (breakdown voltage V_Z, max power P_{\max}):
+   
+   * Minimum series resistance to prevent Zener burnout: R_{s,\min} = \frac{V_{\text{in},\max} - V_Z}{I_{Z,\max} + I_{L,\min}} (unloaded: \frac{V_{\text{in}} - V_Z}{I_{Z,\max}}).
+Digital Logic Gates
+| Logic Gate | Boolean Expression | Output Y = 1 Condition |
+|---|---|---|
+| OR | Y = A + B | Any input is 1 |
+| AND | Y = A \cdot B | All inputs are 1 |
+| NOT | Y = \bar{A} | Input is 0 |
+| NAND (Universal) | Y = \overline{A \cdot B} = \bar{A} + \bar{B} | Any input is 0 (not all 1) |
+| NOR (Universal) | Y = \overline{A + B} = \bar{A} \cdot \bar{B} | All inputs are 0 |
+| XOR | Y = A\bar{B} + \bar{A}B | Inputs are different |
+| XNOR | Y = AB + \bar{A}\bar{B} | Inputs are identical |
+ * De Morgan's Theorems & Universal Gate Equivalents:
+   
+   * NOT: NAND with inputs shorted together, or NOR with inputs shorted together.
+   * AND: NAND followed by NOT, or NOR with both inputs inverted (\overline{\bar{A} + \bar{B}} = A \cdot B).
+   * OR: NOR followed by NOT, or NAND with both inputs inverted (\overline{\bar{A} \cdot \bar{B}} = A + B).
+CLASS 12 • CHAPTER 15: Communication Systems
+(Reference Only — Excluded from JEE Main Syllabus)
+ * Block Diagram & Terminology:
+   * \text{Information Source} \to \text{Transmitter} \to \text{Channel (Noise enters)} \to \text{Receiver} \to \text{User}.
+   * Bandwidths: Speech \approx 2800\text{ Hz} (300\text{–}3100\text{ Hz}), Music \approx 20\text{ kHz}, Video \approx 4.2\text{ MHz}, TV channel \approx 6\text{ MHz}.
+ * Propagation of Electromagnetic Waves:
+   * Ground Wave (< 2\text{ MHz}): Follows Earth's curvature; attenuation increases with frequency.
+   * Sky Wave (2\text{–}30\text{ MHz}): Reflected by the ionosphere via total internal reflection. Critical frequency:
+     
+   * Space Wave / Line-of-Sight (> 40\text{ MHz}): Direct propagation and satellite communication. Maximum line-of-sight range (Earth radius R \approx 6400\text{ km}):
+     
+ * Amplitude Modulation (AM):
+   * Quarter-wave antenna height requirement: l \approx \frac{\lambda}{4}, and radiated power P \propto \left(\frac{l}{\lambda}\right)^2.
+   * Modulation Index:
+     
+   * Sideband Frequencies & Bandwidth:
+     
+   * Total Power in AM Wave: P_t = P_c\left(1 + \frac{\mu^2}{2}\right).
