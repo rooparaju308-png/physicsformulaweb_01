@@ -163,10 +163,10 @@ export const WAVE_OPTICS_FORMULAS: Formula[] = [
     subtopic: "Huygens' Principle & Resolving Power",
     chain: 'wave-optics',
     title: "Huygens' Wavefront Refraction & Rayleigh Angular Resolving Limit",
-    latex: String.raw`\frac{\sin i}{\sin r} = \frac{v_1}{v_2} = \frac{\lambda_1}{\lambda_2} = \frac{n_2}{n_1}; \qquad \theta_{\min} = \frac{1.22\,\lambda}{D},\qquad \text{RP}_{\text{telescope}} = \frac{D}{1.22\,\lambda},\qquad \text{RP}_{\text{microscope}} = \frac{2n\sin\theta}{\lambda}`,
+    latex: String.raw`\frac{\sin i}{\sin r} = \frac{v_1}{v_2} = \frac{\lambda_1}{\lambda_2} = \frac{n_2}{n_1}; \qquad \theta_{\min} = \frac{1.22\,\lambda}{D},\qquad \text{RP}_{\text{telescope}} = \frac{D}{1.22\,\lambda},\qquad \text{RP}_{\text{microscope}} = \frac{2n\sin\theta}{1.22\,\lambda}`,
     conditions: [
       'Huygens secondary wavelets prove light slows down in a denser medium (v₂ < v₁ when n₂ > n₁), bending toward normal while frequency ν stays invariant.',
-      'Rayleigh criterion: two point sources are just resolved when the central Airy maximum of one falls on the first dark ring (1.22λ/D) of the other.',
+      'Rayleigh criterion: two point sources are just resolved when the central Airy maximum of one falls on the first dark ring (1.22λ/D) of the other (Abbe diffraction limit omits 1.22: 2n sinθ / λ).',
       'To improve microscope resolving power, use shorter wavelength λ (UV/blue or oil-immersion high n) and wide cone angle 2θ.',
     ],
     variables: [
@@ -180,7 +180,7 @@ export const WAVE_OPTICS_FORMULAS: Formula[] = [
     labId: 'wave-optics',
     flashcard: {
       front: "Huygens wavefront Snell relation, Rayleigh angular resolution θ_min, and microscope resolving power?",
-      back: 'sin i / sin r = v₁/v₂ = λ₁/λ₂ = n₂/n₁ (frequency ν invariant). Circular aperture: θ_min = 1.22λ/D; Telescope RP = D/(1.22λ); Microscope RP = 2n sinθ / λ.',
+      back: 'sin i / sin r = v₁/v₂ = λ₁/λ₂ = n₂/n₁ (frequency ν invariant). Circular aperture: θ_min = 1.22λ/D; Telescope RP = D/(1.22λ); Microscope RP = 2n sinθ / (1.22λ).',
     },
     tags: ['huygens', 'wavefront', 'resolving-power', 'rayleigh', 'diffraction', 'aperture'],
     jeeWeight: 2,

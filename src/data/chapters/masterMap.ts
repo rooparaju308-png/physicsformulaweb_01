@@ -7,7 +7,7 @@ export const MASTER_MAP_FORMULAS: Formula[] = [
     subtopic: 'Unified k-Notation & Force–Potential Relations',
     chain: 'master',
     title: 'Unified k-Notation (k_e, k_m) & Fundamental Force / Work Relations',
-    latex: String.raw`k_e = \frac{1}{4\pi\varepsilon_0} = 9\times 10^9 \implies \frac{1}{\varepsilon_0} = 4\pi k; \qquad k_m = \frac{\mu_0}{4\pi} = 10^{-7} \implies \mu_0 = 4\pi k`,
+    latex: String.raw`k_e = \frac{1}{4\pi\varepsilon_0} = 9\times 10^9 \implies \frac{1}{\varepsilon_0} = 4\pi k_e; \qquad k_m = \frac{\mu_0}{4\pi} = 10^{-7} \implies \mu_0 = 4\pi k_m`,
     conditions: [
       'Electrostatic force on test charge q₀: F_e = q₀E | Lorentz magnetic force: F_B = q₀(v × B).',
       'Magnetic force on current wire: F_B = ∫ I(dl × B) = I(L_eff × B) in uniform B.',

@@ -7,6 +7,8 @@
   --accent-primary: #06b6d4;
   --accent-secondary: #7c3aed;
   --app-font-scale: 1;
+  --theme-transition-duration: 320ms;
+  --theme-transition-ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .dark {
@@ -23,6 +25,16 @@ html {
 body {
   overflow-x: hidden;
   min-height: 100dvh;
+  background-color: #f8fafc;
+  color: #0f172a;
+  transition:
+    background-color var(--theme-transition-duration) var(--theme-transition-ease),
+    color var(--theme-transition-duration) var(--theme-transition-ease);
+}
+
+.dark body {
+  background-color: #060913;
+  color: #f1f5f9;
 }
 
 /* Subtle engineering grid fallback & studio surface tokens */
@@ -39,6 +51,14 @@ html:not(.dark) .physics-grid-bg {
     linear-gradient(to bottom, rgba(15, 23, 42, 0.035) 1px, transparent 1px);
 }
 
+.theme-surface-transition {
+  transition:
+    background-color var(--theme-transition-duration) var(--theme-transition-ease),
+    border-color var(--theme-transition-duration) var(--theme-transition-ease),
+    color var(--theme-transition-duration) var(--theme-transition-ease),
+    box-shadow var(--theme-transition-duration) var(--theme-transition-ease);
+}
+
 /* Crisp translucent studio surfaces (compositor-friendly over WebGL canvas) */
 .studio-surface {
   background-color: rgba(255, 255, 255, 0.88);
@@ -46,6 +66,11 @@ html:not(.dark) .physics-grid-bg {
   box-shadow:
     0 1px 2px rgba(15, 23, 42, 0.04),
     0 8px 24px -12px rgba(15, 23, 42, 0.08);
+  transition:
+    background-color var(--theme-transition-duration) var(--theme-transition-ease),
+    border-color var(--theme-transition-duration) var(--theme-transition-ease),
+    color var(--theme-transition-duration) var(--theme-transition-ease),
+    box-shadow var(--theme-transition-duration) var(--theme-transition-ease);
 }
 
 .dark .studio-surface {
@@ -59,6 +84,11 @@ html:not(.dark) .physics-grid-bg {
 .studio-surface-subtle {
   background-color: rgba(248, 250, 252, 0.84);
   border-color: rgba(226, 232, 240, 0.9);
+  transition:
+    background-color var(--theme-transition-duration) var(--theme-transition-ease),
+    border-color var(--theme-transition-duration) var(--theme-transition-ease),
+    color var(--theme-transition-duration) var(--theme-transition-ease),
+    box-shadow var(--theme-transition-duration) var(--theme-transition-ease);
 }
 
 .dark .studio-surface-subtle {
@@ -66,7 +96,103 @@ html:not(.dark) .physics-grid-bg {
   border-color: rgba(30, 41, 59, 0.85);
 }
 
+/* A4 Study-Wall Cheat Sheet Multi-Column Layout */
+.a4-cols-2 {
+  display: block;
+  column-count: 1;
+  column-gap: 12px;
+}
+
+.a4-cols-3 {
+  display: block;
+  column-count: 1;
+  column-gap: 10px;
+}
+
+@media (min-width: 640px) {
+  .a4-cols-2 {
+    column-count: 2;
+  }
+  .a4-cols-3 {
+    column-count: 2;
+  }
+}
+
+@media (min-width: 900px) {
+  .a4-cols-3 {
+    column-count: 3;
+  }
+}
+
+.a4-chapter-heading {
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+.a4-formula-card {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.a4-cheat-sheet-document .katex {
+  font-size: 0.88em;
+}
+
+.a4-cheat-sheet-document .katex-html {
+  white-space: normal;
+}
+
 @media print {
+  @page {
+    size: A4 portrait;
+    margin: 9mm 10mm;
+  }
+
+  body.cheatsheet-print-open {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body.cheatsheet-print-open #root {
+    display: none !important;
+  }
+
+  .cheat-sheet-print-portal {
+    position: static !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    background: #ffffff !important;
+    padding: 0 !important;
+    display: block !important;
+  }
+
+  .a4-cheat-sheet-document {
+    max-width: none !important;
+    width: 100% !important;
+    box-shadow: none !important;
+    border: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .a4-cols-2 {
+    column-count: 2 !important;
+    column-gap: 10px !important;
+  }
+
+  .a4-cols-3 {
+    column-count: 3 !important;
+    column-gap: 8px !important;
+  }
+
+  .a4-cheat-sheet-document .katex {
+    font-size: 0.82em !important;
+  }
+
   .physics-grid-bg,
   .studio-surface,
   .studio-surface-subtle {

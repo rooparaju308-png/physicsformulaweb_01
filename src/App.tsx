@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { MotionConfig, motion, AnimatePresence } from 'motion/react';
 import {
   Award,
@@ -11,23 +11,27 @@ import {
   Home,
   Layers,
   LineChart,
+  Monitor,
+  Moon,
   MoreHorizontal,
   Network,
   Search,
   Settings,
   Sparkles,
+  Sun,
   Users,
   WifiOff,
   X,
   Zap,
 } from 'lucide-react';
-import { AppTab, DoubtCommunityDraft, Formula } from './types/physics';
+import { AppTab, ChecklistStage, DoubtCommunityDraft, Formula, ThemeMode } from './types/physics';
 import { useAppStore } from './store/useAppStore';
 import { useOnlineStatus } from './hooks/usePWAInstall';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { FirebaseProvider } from './contexts/FirebaseContext';
 import { PWAInstallButton } from './components/PWAInstallButton';
 import { Physics3DScene } from './components/Physics3DScene';
+import { ThemeTransitionLayer, THEME_TRANSITION } from './components/ThemeTransitionLayer';
 import { CommandPaletteModal } from './components/CommandPaletteModal';
 import { AIMentorDrawer } from './components/AIMentorDrawer';
 import { HomePage } from './pages/HomePage';
@@ -64,6 +68,82 @@ const DESKTOP_NAV: { id: AppTab; label: string }[] = [
   { id: 'about', label: 'About' },
   { id: 'settings', label: 'Settings' },
 ];
+
+const MOBILE_SWIPE_TABS: AppTab[] = ['home', 'web', 'labs', 'community'];
+const ALL_SWIPE_TABS: AppTab[] = DESKTOP_NAV.map((item) => item.id);
+
+function shouldIgnoreSwipeTarget(target: EventTarget | null, boundary: HTMLElement | null): boolean {
+  let node = target instanceof HTMLElement ? target : null;
+  while (node && node !== boundary) {
+    const tag = node.tagName;
+    if (
+      tag === 'INPUT' ||
+      tag === 'TEXTAREA' ||
+      tag === 'SELECT' ||
+      tag === 'CANVAS' ||
+      node.dataset.noSwipe === 'true' ||
+      node.getAttribute('role') === 'slider' ||
+      node.classList.contains('katex-display') ||
+      node.classList.contains('recharts-wrapper')
+    ) {
+      return true;
+    }
+    const style = window.getComputedStyle(node);
+    if (
+      (style.overflowX === 'auto' || style.overflowX === 'scroll') &&
+      node.scrollWidth > node.clientWidth + 4
+    ) {
+      return true;
+    }
+    node = node.parentElement;
+  }
+  return false;
+}
+
+const TAB_SPRING = {
+  type: 'spring' as const,
+  stiffness: 420,
+  damping: 32,
+  mass: 0.85,
+};
+
+const SWIPE_DRAG_SPRING = {
+  type: 'spring' as const,
+  stiffness: 480,
+  damping: 34,
+  mass: 0.7,
+};
+
+const TAB_SLIDE_VARIANTS = {
+  enter: (dir: number) => ({
+    opacity: 0,
+    x: dir === 0 ? 0 : dir > 0 ? 36 : -36,
+    y: dir === 0 ? 10 : 0,
+    scale: 0.985,
+  }),
+  center: {
+    opacity: 1,
+    x: 0,
+    y: 0,
+    scale: 1,
+    transition: {
+      x: TAB_SPRING,
+      y: TAB_SPRING,
+      scale: TAB_SPRING,
+      opacity: { duration: 0.16, ease: 'easeOut' as const },
+    },
+  },
+  exit: (dir: number) => ({
+    opacity: 0,
+    x: dir === 0 ? 0 : dir > 0 ? -24 : 24,
+    y: dir === 0 ? -6 : 0,
+    scale: 0.99,
+    transition: {
+      duration: 0.12,
+      ease: [0.32, 0, 0.67, 0] as const,
+    },
+  }),
+};
 
 export default function App() {
   const {
@@ -121,6 +201,16 @@ export default function App() {
   const [communitySubTab, setCommunitySubTab] = useState<CommunitySubTab>('rooms');
   const [pendingDoubtDraft, setPendingDoubtDraft] = useState<DoubtCommunityDraft | null>(null);
   const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
+  const [tabTransitionDir, setTabTransitionDir] = useState(0);
+  const [swipeDragX, setSwipeDragX] = useState(0);
+  const mainSwipeRef = useRef<HTMLElement | null>(null);
+  const swipeTouchRef = useRef<{
+    x: number;
+    y: number;
+    time: number;
+    ignored: boolean;
+    lockedHorizontal: boolean;
+  } | null>(null);
   const [systemPrefersDark, setSystemPrefersDark] = useState<boolean>(() => {
     if (typeof window === 'undefined' || !window.matchMedia) return true;
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -149,6 +239,62 @@ export default function App() {
   const resolvedDark =
     state.settings.theme === 'auto' ? systemPrefersDark : state.settings.theme === 'dark';
 
+  const sectionProgressMap = useMemo(() => {
+    const items = state.checklist || [];
+    const totalItems = items.length;
+    const stages: ChecklistStage[] = [
+      'formulasLearnt',
+      'graphsUnderstood',
+      'flashcardsDone',
+      'pyqsSolved',
+      'revisedX2',
+    ];
+
+    const stageStats = (stage: ChecklistStage, label: string) => {
+      const done = items.filter((item) => item.stages[stage]).length;
+      const pct = totalItems > 0 ? Math.round((done / totalItems) * 100) : 0;
+      return { pct, done, total: totalItems, label };
+    };
+
+    const totalStageSlots = totalItems * stages.length;
+    const doneStageSlots = items.reduce(
+      (sum, item) => sum + stages.filter((s) => item.stages[s]).length,
+      0
+    );
+    const overallPct = totalStageSlots > 0 ? Math.round((doneStageSlots / totalStageSlots) * 100) : 0;
+    const overall = {
+      pct: overallPct,
+      done: doneStageSlots,
+      total: totalStageSlots,
+      label: 'Overall Checklist',
+    };
+
+    const formulas = stageStats('formulasLearnt', 'Formulas Learnt');
+    const graphs = stageStats('graphsUnderstood', 'Graphs Understood');
+    const flashcards = stageStats('flashcardsDone', 'Flashcards Done');
+    const pyqs = stageStats('pyqsSolved', 'PYQs Solved');
+    const revised = stageStats('revisedX2', 'Revised ×2');
+
+    const map: Partial<Record<AppTab, { pct: number; done: number; total: number; label: string }>> = {
+      home: overall,
+      web: formulas,
+      notes: revised,
+      graphs,
+      quiz: pyqs,
+      flashcards,
+      checklist: overall,
+      'test-series': pyqs,
+    };
+    return map;
+  }, [state.checklist]);
+
+  const cycleThemeMode = () => {
+    const order: ThemeMode[] = ['dark', 'light', 'auto'];
+    const currentIdx = order.indexOf(state.settings.theme);
+    const nextTheme = order[(currentIdx + 1) % order.length];
+    updateSettings({ theme: nextTheme });
+  };
+
   useEffect(() => {
     const onHash = () => {
       const h = window.location.hash;
@@ -164,10 +310,106 @@ export default function App() {
     return () => window.removeEventListener('hashchange', onHash);
   }, []);
 
-  const navigateTo = (tab: AppTab) => {
+  const navigateTo = (tab: AppTab, direction?: number) => {
+    let resolvedDir = direction ?? 0;
+    if (direction === undefined && tab !== activeTab) {
+      const fromIdx = ALL_SWIPE_TABS.indexOf(activeTab);
+      const toIdx = ALL_SWIPE_TABS.indexOf(tab);
+      if (fromIdx !== -1 && toIdx !== -1) {
+        resolvedDir = toIdx > fromIdx ? 1 : -1;
+      }
+    }
+    setTabTransitionDir(resolvedDir);
     setActiveTab(tab);
     setMobileMoreOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleMainTouchStart = (e: React.TouchEvent<HTMLElement>) => {
+    if (
+      typeof window === 'undefined' ||
+      window.innerWidth >= 1024 ||
+      e.touches.length !== 1 ||
+      commandPaletteOpen ||
+      mentorDrawerOpen ||
+      mobileMoreOpen
+    ) {
+      swipeTouchRef.current = null;
+      return;
+    }
+    const touch = e.touches[0];
+    const ignored = shouldIgnoreSwipeTarget(e.target, mainSwipeRef.current);
+    swipeTouchRef.current = {
+      x: touch.clientX,
+      y: touch.clientY,
+      time: Date.now(),
+      ignored,
+      lockedHorizontal: false,
+    };
+  };
+
+  const handleMainTouchMove = (e: React.TouchEvent<HTMLElement>) => {
+    const start = swipeTouchRef.current;
+    if (!start || start.ignored || e.touches.length !== 1) {
+      if (swipeDragX !== 0) setSwipeDragX(0);
+      return;
+    }
+    const touch = e.touches[0];
+    const dx = touch.clientX - start.x;
+    const dy = touch.clientY - start.y;
+
+    if (!start.lockedHorizontal) {
+      if (Math.abs(dy) > 16 && Math.abs(dy) >= Math.abs(dx)) {
+        start.ignored = true;
+        if (swipeDragX !== 0) setSwipeDragX(0);
+        return;
+      }
+      if (Math.abs(dx) > 18 && Math.abs(dx) > Math.abs(dy) * 1.4) {
+        start.lockedHorizontal = true;
+      }
+    }
+
+    if (start.lockedHorizontal) {
+      const clamped = Math.max(-28, Math.min(28, dx * 0.25));
+      setSwipeDragX(clamped);
+    }
+  };
+
+  const handleMainTouchEnd = (e: React.TouchEvent<HTMLElement>) => {
+    const start = swipeTouchRef.current;
+    swipeTouchRef.current = null;
+    setSwipeDragX(0);
+
+    if (!start || start.ignored || e.changedTouches.length === 0) return;
+    const touch = e.changedTouches[0];
+    const dx = touch.clientX - start.x;
+    const dy = touch.clientY - start.y;
+    const elapsed = Date.now() - start.time;
+
+    const isHorizontalSwipe =
+      Math.abs(dx) >= 64 &&
+      Math.abs(dx) > Math.abs(dy) * 1.5 &&
+      (elapsed < 700 || Math.abs(dx) >= 96);
+
+    if (!isHorizontalSwipe) return;
+
+    const tabSequence = MOBILE_SWIPE_TABS.includes(activeTab)
+      ? MOBILE_SWIPE_TABS
+      : ALL_SWIPE_TABS;
+    const currentIdx = tabSequence.indexOf(activeTab);
+    if (currentIdx === -1) return;
+
+    // Swipe left (dx < 0) -> next tab; Swipe right (dx > 0) -> previous tab
+    const step = dx < 0 ? 1 : -1;
+    const nextIdx = currentIdx + step;
+    if (nextIdx < 0 || nextIdx >= tabSequence.length) return;
+
+    navigateTo(tabSequence[nextIdx], step);
+  };
+
+  const handleMainTouchCancel = () => {
+    swipeTouchRef.current = null;
+    setSwipeDragX(0);
   };
 
   const handleJumpToFormula = (formulaId: string) => {
@@ -207,7 +449,19 @@ export default function App() {
     <ErrorBoundary>
       <FirebaseProvider studyState={state} onMergeCloudState={mergeCloudState}>
         <MotionConfig reducedMotion="user">
-          <div className="relative min-h-dvh bg-slate-50 dark:bg-[#060913] text-slate-900 dark:text-slate-100 physics-grid-bg transition-colors duration-200 flex flex-col">
+          <motion.div
+            initial={false}
+            animate={{
+              backgroundColor: resolvedDark ? '#060913' : '#f8fafc',
+              color: resolvedDark ? '#f1f5f9' : '#0f172a',
+            }}
+            transition={THEME_TRANSITION}
+            className="relative min-h-dvh physics-grid-bg flex flex-col"
+          >
+            <ThemeTransitionLayer
+              resolvedDark={resolvedDark}
+              accent={state.settings.accent}
+            />
             <Physics3DScene
               variant="backdrop"
               preset={state.settings.background3dPreset ?? 'em-field'}
@@ -215,9 +469,9 @@ export default function App() {
               isDark={resolvedDark}
               accent={state.settings.accent}
             />
-        {/* Top Bar (Compact 52px on mobile, clean 3-zone on desktop) */}
-        <header className="sticky top-0 z-30 h-14 border-b border-slate-200/85 dark:border-slate-800/85 bg-white/92 dark:bg-[#060913]/92">
-          <div className="max-w-7xl mx-auto h-full px-4 flex items-center justify-between gap-4">
+        {/* Top Bar (Responsive full width, compact flex-1 navigation, permanent Settings & About access) */}
+        <header className="print:hidden sticky top-0 z-30 h-14 border-b border-slate-200/85 dark:border-slate-800/85 bg-white/92 dark:bg-[#060913]/92 backdrop-blur-md theme-surface-transition">
+          <div className="w-full max-w-[1920px] mx-auto h-full px-3 sm:px-4 xl:px-6 flex items-center justify-between gap-2 xl:gap-3">
             <button
               type="button"
               onClick={() => navigateTo('home')}
@@ -226,32 +480,80 @@ export default function App() {
               JEE physics Web - by Kushal
             </button>
 
-            <nav className="hidden lg:flex items-center gap-2.5 xl:gap-3.5 text-xs xl:text-sm font-medium">
+            <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5 2xl:gap-2 text-xs font-medium overflow-x-auto scrollbar-none flex-1 justify-center min-w-0 px-2 py-1">
               {DESKTOP_NAV.map((item) => {
                 const active = activeTab === item.id;
+                const progress = sectionProgressMap[item.id];
                 return (
                   <button
                     key={item.id}
                     type="button"
                     onClick={() => navigateTo(item.id)}
-                    className={`min-h-[40px] px-1 whitespace-nowrap shrink-0 transition-colors border-b-2 ${
+                    title={
+                      progress
+                        ? `${item.label} · ${progress.label}: ${progress.pct}% (${progress.done}/${progress.total})`
+                        : item.label
+                    }
+                    aria-label={
+                      progress
+                        ? `${item.label}, ${progress.pct}% complete`
+                        : item.label
+                    }
+                    className={`relative min-h-[34px] px-2 xl:px-2.5 py-1 rounded-lg whitespace-nowrap shrink-0 transition-colors text-xs cursor-pointer inline-flex items-center gap-1.5 ${
                       active
-                        ? 'border-cyan-400 text-cyan-600 dark:text-cyan-300 font-semibold'
-                        : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
+                        ? 'text-cyan-600 dark:text-cyan-300 font-bold'
+                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800/60'
                     }`}
                   >
-                    {item.label}
+                    {active && (
+                      <motion.span
+                        layoutId="desktop-nav-active-pill"
+                        transition={TAB_SPRING}
+                        className="absolute inset-0 rounded-lg bg-cyan-500/15 border border-cyan-500/35 pointer-events-none"
+                      />
+                    )}
+                    <span className="relative z-10">{item.label}</span>
+                    {progress && (
+                      <span
+                        className={`relative z-10 font-mono tabular-nums text-[10px] leading-none ${
+                          progress.pct === 100
+                            ? 'text-emerald-600 dark:text-emerald-300 font-semibold'
+                            : active
+                              ? 'text-cyan-700 dark:text-cyan-200'
+                              : 'text-slate-400 dark:text-slate-500'
+                        }`}
+                      >
+                        {progress.pct}%
+                      </span>
+                    )}
+                    {progress && (
+                      <span
+                        aria-hidden="true"
+                        className="absolute bottom-[2px] left-1.5 right-1.5 h-[2px] rounded-full bg-slate-200/75 dark:bg-slate-800/80 overflow-hidden pointer-events-none"
+                      >
+                        <motion.span
+                          initial={false}
+                          animate={{ width: `${progress.pct}%` }}
+                          transition={TAB_SPRING}
+                          className={`block h-full rounded-full ${
+                            progress.pct === 100
+                              ? 'bg-emerald-500 dark:bg-emerald-400'
+                              : 'bg-cyan-500/85 dark:bg-cyan-400/85'
+                          }`}
+                        />
+                      </span>
+                    )}
                   </button>
                 );
               })}
             </nav>
 
-            <div className="flex items-center gap-2 shrink-0">
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
               <button
                 type="button"
                 onClick={() => setCommandPaletteOpen(true)}
                 aria-label="Open Quick Jump (Ctrl+K)"
-                className="min-h-[36px] px-2.5 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-slate-100/80 dark:bg-slate-900/80 hover:border-cyan-400 text-xs font-medium text-slate-600 dark:text-slate-300 inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+                className="min-h-[34px] px-2.5 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-slate-100/80 dark:bg-slate-900/80 hover:border-cyan-400 text-xs font-medium text-slate-600 dark:text-slate-300 inline-flex items-center gap-1.5 transition-colors cursor-pointer"
               >
                 <Search className="h-3.5 w-3.5 text-cyan-500" />
                 <span className="hidden xl:inline">Jump</span>
@@ -259,29 +561,94 @@ export default function App() {
                   ⌘K
                 </kbd>
               </button>
+
+              {/* Dedicated About Button - Always visible on desktop & tablets */}
+              <button
+                type="button"
+                onClick={() => navigateTo('about')}
+                aria-label="About & Philosophy"
+                title="About JEE Physics Web & App Philosophy"
+                className={`min-h-[34px] px-2.5 rounded-xl border text-xs font-semibold inline-flex items-center gap-1.5 transition-colors cursor-pointer ${
+                  activeTab === 'about'
+                    ? 'border-cyan-500 bg-cyan-500/20 text-cyan-600 dark:text-cyan-300'
+                    : 'border-slate-200 dark:border-slate-700/80 bg-slate-100/80 dark:bg-slate-900/80 text-slate-700 dark:text-slate-300 hover:border-cyan-400'
+                }`}
+              >
+                <Sparkles className="h-3.5 w-3.5 text-cyan-500" />
+                <span className="hidden md:inline">About</span>
+              </button>
+
               <PWAInstallButton />
+
+              {/* Quick Theme Cross-Fade Toggle */}
+              <button
+                type="button"
+                onClick={cycleThemeMode}
+                aria-label={`Switch theme (current: ${state.settings.theme})`}
+                title={`Theme: ${state.settings.theme === 'auto' ? 'Auto' : state.settings.theme === 'dark' ? 'Dark' : 'Light'} (click to switch)`}
+                className="min-h-[34px] min-w-[34px] px-2 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-slate-100/80 dark:bg-slate-900/80 text-slate-700 dark:text-slate-200 hover:border-cyan-400 inline-flex items-center justify-center theme-surface-transition cursor-pointer overflow-hidden"
+              >
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.span
+                    key={state.settings.theme}
+                    initial={{ opacity: 0, rotate: -25, scale: 0.8 }}
+                    animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                    exit={{ opacity: 0, rotate: 25, scale: 0.8 }}
+                    transition={{ duration: 0.18, ease: THEME_TRANSITION.ease }}
+                    className="inline-flex items-center justify-center"
+                  >
+                    {state.settings.theme === 'light' ? (
+                      <Sun className="h-4 w-4 text-amber-500" />
+                    ) : state.settings.theme === 'auto' ? (
+                      <Monitor className="h-4 w-4 text-cyan-500" />
+                    ) : (
+                      <Moon className="h-4 w-4 text-violet-400" />
+                    )}
+                  </motion.span>
+                </AnimatePresence>
+              </button>
+
+              {/* Dedicated Settings Button - Visible across ALL screen sizes & zoom levels */}
               <button
                 type="button"
                 onClick={() => navigateTo('settings')}
                 aria-label="Open Settings"
-                className="lg:hidden min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-slate-800/60"
+                title="Settings & Cloud Backup"
+                className={`min-h-[34px] px-2.5 rounded-xl border text-xs font-semibold inline-flex items-center gap-1.5 theme-surface-transition cursor-pointer ${
+                  activeTab === 'settings'
+                    ? 'border-cyan-500 bg-cyan-500/20 text-cyan-600 dark:text-cyan-300'
+                    : 'border-slate-200 dark:border-slate-700/80 bg-slate-100/80 dark:bg-slate-900/80 text-slate-700 dark:text-slate-300 hover:border-cyan-400'
+                }`}
               >
-                <Settings className="h-5 w-5" />
+                <Settings className="h-4 w-4 text-slate-600 dark:text-slate-300" />
+                <span className="hidden md:inline">Settings</span>
               </button>
             </div>
           </div>
         </header>
 
-        {/* Main Scrollable Content */}
-        <main className="relative z-10 flex-1 w-full max-w-7xl mx-auto px-4 pt-4 pb-24 lg:pb-10">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.16 }}
-            >
+        {/* Main Scrollable Content (supports mobile swipe-to-navigate between tabs) */}
+        <main
+          ref={mainSwipeRef}
+          onTouchStart={handleMainTouchStart}
+          onTouchMove={handleMainTouchMove}
+          onTouchEnd={handleMainTouchEnd}
+          onTouchCancel={handleMainTouchCancel}
+          className="relative z-10 flex-1 w-full max-w-7xl mx-auto px-4 pt-4 pb-24 lg:pb-10 touch-pan-y"
+        >
+          <motion.div
+            animate={{ x: swipeDragX }}
+            transition={swipeDragX === 0 ? SWIPE_DRAG_SPRING : { duration: 0 }}
+          >
+            <AnimatePresence mode="wait" custom={tabTransitionDir}>
+              <motion.div
+                key={activeTab}
+                custom={tabTransitionDir}
+                variants={TAB_SLIDE_VARIANTS}
+                initial="enter"
+                animate="center"
+                exit="exit"
+              >
               {activeTab === 'home' && (
                 <HomePage
                   settings={state.settings}
@@ -312,6 +679,7 @@ export default function App() {
                 <WebPage
                   knownIds={state.knownIds}
                   bookmarkedIds={state.bookmarkedIds}
+                  mistakes={state.mistakes || []}
                   focusedFormulaId={focusedFormulaId}
                   onToggleKnown={toggleKnown}
                   onToggleBookmark={toggleBookmark}
@@ -473,11 +841,12 @@ export default function App() {
               )}
             </motion.div>
           </AnimatePresence>
+          </motion.div>
         </main>
 
         {/* Offline Connectivity Toast */}
         {!isOnline && (
-          <div className="fixed bottom-20 lg:bottom-4 left-4 z-40 flex items-center gap-2 rounded-xl bg-amber-500 px-3 py-2 text-xs font-semibold text-slate-950 shadow-lg">
+          <div className="print:hidden fixed bottom-20 lg:bottom-4 left-4 z-40 flex items-center gap-2 rounded-xl bg-amber-500 px-3 py-2 text-xs font-semibold text-slate-950 shadow-lg">
             <WifiOff className="h-4 w-4" />
             <span>Offline Mode — Cached formulas & labs active</span>
           </div>
@@ -486,12 +855,12 @@ export default function App() {
         {/* Mobile Bottom Sheet for Study Tools (Flashcards, Checklist, Timer, Settings) */}
         {mobileMoreOpen && (
           <div
-            className="lg:hidden fixed inset-0 z-50 bg-black/55 backdrop-blur-sm flex items-end"
+            className="print:hidden lg:hidden fixed inset-0 z-50 bg-black/55 backdrop-blur-sm flex items-end"
             onClick={() => setMobileMoreOpen(false)}
           >
             <div
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-h-[82dvh] overflow-y-auto rounded-t-3xl border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 pb-8 space-y-2"
+              className="w-full max-h-[82dvh] overflow-y-auto rounded-t-3xl border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 pb-8 space-y-2 theme-surface-transition"
             >
               <div className="flex items-center justify-between px-2 pb-2">
                 <span className="text-sm font-bold text-slate-900 dark:text-slate-100">
@@ -523,19 +892,39 @@ export default function App() {
               ).map((tool) => {
                 const Icon = tool.icon;
                 const active = activeTab === tool.id;
+                const progress = sectionProgressMap[tool.id];
                 return (
                   <button
                     key={tool.id}
                     type="button"
                     onClick={() => navigateTo(tool.id)}
-                    className={`w-full min-h-[52px] px-4 rounded-2xl flex items-center gap-3 text-sm font-semibold transition-colors ${
+                    className={`w-full min-h-[52px] px-4 rounded-2xl flex items-center justify-between gap-3 text-sm font-semibold transition-colors ${
                       active
                         ? 'bg-cyan-500/15 text-cyan-600 dark:text-cyan-300 border border-cyan-500/30'
                         : 'bg-slate-100 dark:bg-slate-800/70 text-slate-800 dark:text-slate-200'
                     }`}
                   >
-                    <Icon className="h-5 w-5 shrink-0" />
-                    <span>{tool.label}</span>
+                    <span className="flex items-center gap-3 min-w-0">
+                      <Icon className="h-5 w-5 shrink-0" />
+                      <span className="truncate">{tool.label}</span>
+                    </span>
+                    {progress && (
+                      <span className="flex items-center gap-2 shrink-0">
+                        <span className="w-14 h-1.5 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                          <span
+                            className={`block h-full rounded-full transition-all duration-300 ${
+                              progress.pct === 100
+                                ? 'bg-emerald-500'
+                                : 'bg-cyan-500 dark:bg-cyan-400'
+                            }`}
+                            style={{ width: `${progress.pct}%` }}
+                          />
+                        </span>
+                        <span className="font-mono tabular-nums text-[11px] text-slate-500 dark:text-slate-400 w-8 text-right">
+                          {progress.pct}%
+                        </span>
+                      </span>
+                    )}
                   </button>
                 );
               })}
@@ -546,7 +935,7 @@ export default function App() {
         {/* Mobile Thumb-Friendly Fixed Bottom Tab Bar (5 tabs, <= 64px height) */}
         <nav
           aria-label="Primary mobile navigation"
-          className="lg:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-slate-200/90 dark:border-slate-800/90 bg-white/95 dark:bg-[#060913]/95 pb-safe"
+          className="print:hidden lg:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-slate-200/90 dark:border-slate-800/90 bg-white/95 dark:bg-[#060913]/95 pb-safe theme-surface-transition"
         >
           <div className="grid grid-cols-5 h-16 items-center">
             {(
@@ -559,19 +948,50 @@ export default function App() {
             ).map((tab) => {
               const Icon = tab.icon;
               const active = activeTab === tab.id;
+              const progress = sectionProgressMap[tab.id];
               return (
                 <button
                   key={tab.id}
                   type="button"
                   onClick={() => navigateTo(tab.id)}
-                  className={`min-h-[48px] flex flex-col items-center justify-center gap-0.5 text-[11px] font-medium transition-colors ${
+                  aria-label={progress ? `${tab.label}, ${progress.pct}% complete` : tab.label}
+                  className={`relative min-h-[48px] flex flex-col items-center justify-center gap-0.5 text-[11px] font-medium transition-colors ${
                     active
                       ? 'text-cyan-600 dark:text-cyan-300 font-semibold'
                       : 'text-slate-500 dark:text-slate-400'
                   }`}
                 >
+                  {active && (
+                    <motion.span
+                      layoutId="mobile-nav-active-bar"
+                      transition={TAB_SPRING}
+                      className="absolute top-0 left-3 right-3 h-0.5 rounded-full bg-cyan-500 dark:bg-cyan-400"
+                    />
+                  )}
                   <Icon className="h-5 w-5" />
-                  <span>{tab.label}</span>
+                  <span className="inline-flex items-center gap-1 whitespace-nowrap">
+                    <span>{tab.label}</span>
+                    {progress && (
+                      <span className="font-mono tabular-nums text-[9px] opacity-75">
+                        {progress.pct}%
+                      </span>
+                    )}
+                  </span>
+                  {progress && (
+                    <span
+                      aria-hidden="true"
+                      className="w-10 h-[2px] rounded-full bg-slate-200/80 dark:bg-slate-800 overflow-hidden"
+                    >
+                      <span
+                        className={`block h-full rounded-full transition-all duration-300 ${
+                          progress.pct === 100
+                            ? 'bg-emerald-500'
+                            : 'bg-cyan-500 dark:bg-cyan-400'
+                        }`}
+                        style={{ width: `${progress.pct}%` }}
+                      />
+                    </span>
+                  )}
                 </button>
               );
             })}
@@ -579,12 +999,19 @@ export default function App() {
             <button
               type="button"
               onClick={() => setMobileMoreOpen((o) => !o)}
-              className={`min-h-[48px] flex flex-col items-center justify-center gap-0.5 text-[11px] font-medium transition-colors ${
+              className={`relative min-h-[48px] flex flex-col items-center justify-center gap-0.5 text-[11px] font-medium transition-colors ${
                 isMoreTabActive || mobileMoreOpen
                   ? 'text-cyan-600 dark:text-cyan-300 font-semibold'
                   : 'text-slate-500 dark:text-slate-400'
               }`}
             >
+              {(isMoreTabActive || mobileMoreOpen) && (
+                <motion.span
+                  layoutId="mobile-nav-active-bar"
+                  transition={TAB_SPRING}
+                  className="absolute top-0 left-3 right-3 h-0.5 rounded-full bg-cyan-500 dark:bg-cyan-400"
+                />
+              )}
               <MoreHorizontal className="h-5 w-5" />
               <span>Tools</span>
             </button>
@@ -628,7 +1055,7 @@ export default function App() {
           onOpenLab={handleOpenLab}
           onOpenSettings={() => navigateTo('settings')}
         />
-      </div>
+      </motion.div>
         </MotionConfig>
       </FirebaseProvider>
     </ErrorBoundary>

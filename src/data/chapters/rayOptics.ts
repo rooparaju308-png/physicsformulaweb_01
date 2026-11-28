@@ -134,7 +134,7 @@ export const RAY_OPTICS_FORMULAS: Formula[] = [
     title: 'Lens Power, Separated Lenses & Silvered Lens',
     latex: String.raw`P = \frac{1}{f\text{ (m)}}; \qquad \frac{1}{f_{\text{eq}}} = \frac{1}{f_1} + \frac{1}{f_2} - \frac{d}{f_1 f_2}; \qquad \text{Silvered lens: } P_{\text{eq}} = 2P_L + P_M \implies \frac{1}{f_{\text{eq}}} = \frac{1}{f_M} - \frac{2}{f_L}`,
     conditions: [
-      'Silvered lens behaves as an equivalent spherical mirror (P_L = +1/f_L, P_M = −1/f_M; light refracts twice and reflects once).',
+      'Silvered lens behaves as an equivalent spherical mirror (P_L = +1/f_L, P_M = −1/f_M; light refracts twice and reflects once) using Cartesian signs (e.g. convex f_L > 0, concave f_M < 0 ⇒ f_eq < 0 converging).',
       'For two thin lenses in contact (d = 0): 1/f_eq = 1/f₁ + 1/f₂.',
     ],
     variables: [

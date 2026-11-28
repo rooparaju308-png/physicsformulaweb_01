@@ -1,16 +1,20 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Bookmark, Columns2, Eye, GitBranch, LayoutGrid, Scale, Search, ShieldAlert, X } from 'lucide-react';
+import { Bookmark, Columns2, Download, Eye, GitBranch, LayoutGrid, Printer, Scale, Search, ShieldAlert, X } from 'lucide-react';
 import { CHAPTERS, FORMULAS } from '../data/formulas';
 import { getTrapNote } from '../data/traps';
-import { ChapterId, Formula, MistakeErrorType, MistakeSource } from '../types/physics';
+import { ChapterId, Formula, MistakeEntry, MistakeErrorType, MistakeSource } from '../types/physics';
 import { FormulaCard } from '../components/FormulaCard';
 import { ComparisonSheet } from '../components/ComparisonSheet';
 import { ConceptGraphView } from '../components/ConceptGraphView';
 import { UnitConverterModal } from '../components/UnitConverterModal';
+import { StudyWallCheatSheetModal } from '../components/StudyWallCheatSheetModal';
+import { AnkiExportModal } from '../components/AnkiExportModal';
+import { ChapterFilterValue, ExportScope } from '../utils/ankiExport';
 
 interface WebPageProps {
   knownIds: string[];
   bookmarkedIds: string[];
+  mistakes?: MistakeEntry[];
   focusedFormulaId: string | null;
   onToggleKnown: (id: string) => void;
   onToggleBookmark: (id: string) => void;
@@ -46,6 +50,7 @@ function fuzzyMatch(query: string, target: string): boolean {
 export const WebPage: React.FC<WebPageProps> = ({
   knownIds,
   bookmarkedIds,
+  mistakes = [],
   focusedFormulaId,
   onToggleKnown,
   onToggleBookmark,
@@ -62,6 +67,10 @@ export const WebPage: React.FC<WebPageProps> = ({
   const [onlyTraps, setOnlyTraps] = useState(false);
   const [blurRecall, setBlurRecall] = useState(false);
   const [isConverterOpen, setIsConverterOpen] = useState(false);
+  const [isCheatSheetOpen, setIsCheatSheetOpen] = useState(false);
+  const [isAnkiOpen, setIsAnkiOpen] = useState(false);
+  const [exportInitialChapter, setExportInitialChapter] = useState<ChapterFilterValue>('all');
+  const [exportInitialScope, setExportInitialScope] = useState<ExportScope>('all');
 
   useEffect(() => {
     if (!focusedFormulaId) return;
@@ -116,11 +125,40 @@ export const WebPage: React.FC<WebPageProps> = ({
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
+          {/* Printable A4 Cheat Sheet Button */}
+          <button
+            type="button"
+            onClick={() => {
+              setExportInitialChapter(selectedChapter);
+              setIsCheatSheetOpen(true);
+            }}
+            className="min-h-[40px] px-3.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold inline-flex items-center gap-1.5 hover:border-cyan-400 transition-colors whitespace-nowrap cursor-pointer"
+          >
+            <Printer className="h-4 w-4 text-cyan-500 shrink-0" />
+            <span>A4 Cheat Sheet</span>
+          </button>
+
+          {/* Anki Flashcard Export Button */}
+          <button
+            type="button"
+            onClick={() => {
+              setExportInitialChapter(selectedChapter);
+              setExportInitialScope(
+                onlyBookmarked ? 'starred' : weightFilter === 3 ? 'high-yield' : 'all'
+              );
+              setIsAnkiOpen(true);
+            }}
+            className="min-h-[40px] px-3.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold inline-flex items-center gap-1.5 hover:border-cyan-400 transition-colors whitespace-nowrap cursor-pointer"
+          >
+            <Download className="h-4 w-4 text-cyan-500 shrink-0" />
+            <span>Anki Export</span>
+          </button>
+
           {/* Unit Converter & Constants Overlay Button */}
           <button
             type="button"
             onClick={() => setIsConverterOpen(true)}
-            className="min-h-[40px] px-3.5 rounded-xl bg-cyan-500/15 border border-cyan-500/30 text-cyan-700 dark:text-cyan-200 text-xs font-semibold inline-flex items-center gap-1.5 hover:bg-cyan-500/25 transition-colors"
+            className="min-h-[40px] px-3.5 rounded-xl bg-cyan-500/15 border border-cyan-500/30 text-cyan-700 dark:text-cyan-200 text-xs font-semibold inline-flex items-center gap-1.5 hover:bg-cyan-500/25 transition-colors whitespace-nowrap cursor-pointer"
           >
             <Scale className="h-4 w-4 shrink-0" />
             <span>Unit Converter & Constants</span>
@@ -331,6 +369,36 @@ export const WebPage: React.FC<WebPageProps> = ({
       )}
 
       <UnitConverterModal isOpen={isConverterOpen} onClose={() => setIsConverterOpen(false)} />
+
+      <StudyWallCheatSheetModal
+        isOpen={isCheatSheetOpen}
+        onClose={() => setIsCheatSheetOpen(false)}
+        knownIds={knownIds}
+        bookmarkedIds={bookmarkedIds}
+        mistakes={mistakes}
+        initialChapter={exportInitialChapter}
+        onSwitchToAnki={(ch, sc) => {
+          setIsCheatSheetOpen(false);
+          setExportInitialChapter(ch);
+          setExportInitialScope(sc);
+          setIsAnkiOpen(true);
+        }}
+      />
+
+      <AnkiExportModal
+        isOpen={isAnkiOpen}
+        onClose={() => setIsAnkiOpen(false)}
+        knownIds={knownIds}
+        bookmarkedIds={bookmarkedIds}
+        mistakes={mistakes}
+        initialChapter={exportInitialChapter}
+        initialScope={exportInitialScope}
+        onSwitchToCheatSheet={(ch) => {
+          setIsAnkiOpen(false);
+          setExportInitialChapter(ch);
+          setIsCheatSheetOpen(true);
+        }}
+      />
     </div>
   );
 };

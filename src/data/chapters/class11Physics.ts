@@ -1159,7 +1159,7 @@ export const CLASS_11_PHYSICS_FORMULAS: Formula[] = [
     "derivedFrom": [],
     "specialCasesTo": [],
     "analogTo": [
-      "current-ohm"
+      "curr-ohm-power"
     ],
     "flashcard": {
       "front": "Formula for thermal resistance of a slab? What is equivalent k for two equal-length slabs in series?",
@@ -1489,7 +1489,7 @@ export const CLASS_11_PHYSICS_FORMULAS: Formula[] = [
       "Energy conservation: total energy E = K + U = ½ m ω² A² = const.",
       "Special position: Kinetic energy equals Potential energy (K = U = E/2) at x = ± A/√2.",
       "At midpoint x = A/2: U = E/4 and K = 3E/4 => ratio U : K = 1 : 3.",
-      "Time average over full cycle: <K> = <U> = E/4? No: <K> = <U> = E/2 = ¼ mω²A²."
+      "Time average over a full cycle: <K> = <U> = E/2 = ¼ mω²A²."
     ],
     "variables": [
       {

@@ -47,7 +47,7 @@ export const DIMENSIONAL_DRILLS: DimensionalDrill[] = [
     ],
     correctIndex: 0,
     dimensionBreakdown: '[r²] = L², [(ρ−σ)g] = M L⁻² T⁻², [η] = M L⁻¹ T⁻¹ → L²·(M L⁻² T⁻²)/(M L⁻¹ T⁻¹) = L T⁻¹.',
-    explanation: 'Only Option A gives velocity dimensions [LT⁻¹]. Option B leaves [T⁻¹] (Wait: r·(ρ−σ)g/η = T⁻¹), Option C yields M²L⁻¹T⁻³, and Option D yields L⁵M⁻²T.',
+    explanation: 'Only Option A gives velocity dimensions [LT⁻¹]. Option B leaves [T⁻¹] (r·(ρ−σ)g/η = T⁻¹), Option C yields [M²L⁻¹T⁻³], and Option D yields [L⁵M⁻²T].',
     formulaId: 'c11-fluids-viscosity-surface-tension',
   },
   {

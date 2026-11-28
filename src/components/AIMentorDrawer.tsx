@@ -832,7 +832,7 @@ export const AIMentorDrawer: React.FC<AIMentorDrawerProps> = ({
           type="button"
           onClick={() => onOpenChange(true)}
           aria-label="Open Mini Gemini Physics Mentor Drawer (Ctrl+Shift+M)"
-          className="fixed bottom-20 right-4 lg:bottom-6 lg:right-6 z-40 min-h-[46px] px-4 rounded-2xl border border-cyan-500/45 bg-white/92 dark:bg-[#0b1324]/92 backdrop-blur-md shadow-xl hover:border-cyan-400 text-slate-900 dark:text-slate-100 inline-flex items-center gap-2.5 transition-transform active:scale-95 cursor-pointer"
+          className="print:hidden fixed bottom-20 right-4 lg:bottom-6 lg:right-6 z-40 min-h-[46px] px-4 rounded-2xl border border-cyan-500/45 bg-white/92 dark:bg-[#0b1324]/92 backdrop-blur-md shadow-xl hover:border-cyan-400 text-slate-900 dark:text-slate-100 inline-flex items-center gap-2.5 transition-transform active:scale-95 cursor-pointer"
         >
           <Sparkles className="h-4.5 w-4.5 text-cyan-500 shrink-0" />
           <span className="text-xs sm:text-sm font-bold whitespace-nowrap">
@@ -847,7 +847,7 @@ export const AIMentorDrawer: React.FC<AIMentorDrawerProps> = ({
       {/* Translucent Slide-Over Mini Gemini Mentor Drawer */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-50 bg-black/35 backdrop-blur-[2px] flex justify-end"
+          className="print:hidden fixed inset-0 z-50 bg-black/35 backdrop-blur-[2px] flex justify-end"
           onClick={() => onOpenChange(false)}
         >
           <aside

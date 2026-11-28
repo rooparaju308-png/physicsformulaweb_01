@@ -203,9 +203,16 @@ export const FirebaseProvider: React.FC<FirebaseProviderProps> = ({
           ? String((error as { code: string }).code)
           : '';
       if (code !== 'auth/popup-closed-by-user') {
-        setAuthError(
-          error instanceof Error ? error.message : 'Gmail sign-in failed. Please allow popups and try again.'
-        );
+        if (code === 'auth/unauthorized-domain') {
+          const host = typeof window !== 'undefined' ? window.location.hostname : 'this domain';
+          setAuthError(
+            `Domain not authorized for Firebase Auth: "${host}". To enable login from ${host}, add it to Firebase Console → Authentication → Settings → Authorized domains.`
+          );
+        } else {
+          setAuthError(
+            error instanceof Error ? error.message : 'Gmail sign-in failed. Please allow popups and try again.'
+          );
+        }
       }
     } finally {
       setActionLoading(false);
@@ -249,9 +256,16 @@ export const FirebaseProvider: React.FC<FirebaseProviderProps> = ({
         }
       }
       if (code !== 'auth/popup-closed-by-user') {
-        setAuthError(
-          error instanceof Error ? error.message : 'Could not link Gmail account.'
-        );
+        if (code === 'auth/unauthorized-domain') {
+          const host = typeof window !== 'undefined' ? window.location.hostname : 'this domain';
+          setAuthError(
+            `Domain not authorized for Firebase Auth: "${host}". To enable login from ${host}, add it to Firebase Console → Authentication → Settings → Authorized domains.`
+          );
+        } else {
+          setAuthError(
+            error instanceof Error ? error.message : 'Could not link Gmail account.'
+          );
+        }
       }
     } finally {
       setActionLoading(false);

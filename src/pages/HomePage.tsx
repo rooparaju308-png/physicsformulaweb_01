@@ -42,7 +42,7 @@ import { MathBlock } from '../components/MathBlock';
 import { ConfettiBurst, ConfettiTrigger } from '../components/ConfettiBurst';
 import { ProfileProgressModal } from '../components/ProfileProgressModal';
 import { StudyFlexCardModal } from '../components/StudyFlexCardModal';
-import { Physics3DScene } from '../components/Physics3DScene';
+import { MotionStudioSurface } from '../components/ThemeTransitionLayer';
 import { useFirebase } from '../contexts/FirebaseContext';
 import { getAspirantLevel } from '../utils/xp';
 import { QuizSubMode } from './QuizPage';
@@ -470,7 +470,7 @@ export const HomePage: React.FC<HomePageProps> = ({
     <div className="space-y-5">
       <ConfettiBurst trigger={confettiTrigger} />
       {/* Top Aspirant Status Strip: Streak, Level & Profile */}
-      <section className="rounded-2xl border studio-surface px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <MotionStudioSurface as="section" isDark={isDark} className="rounded-2xl border px-4 py-3 flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-xs sm:text-sm">
           <div className="flex items-center gap-2">
             <Flame className="h-4 w-4 text-amber-500 shrink-0" />
@@ -515,12 +515,12 @@ export const HomePage: React.FC<HomePageProps> = ({
             {profile ? profile.displayName : 'Profile'}
           </span>
         </button>
-      </section>
+      </MotionStudioSurface>
 
-      {/* Interactive 3D Hero Showcase + Exam Countdown */}
+      {/* Exam Countdown Hero Banner */}
       <section className="rounded-3xl border border-cyan-500/30 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-cyan-950/75 dark:from-slate-900/85 dark:via-[#0b1224]/85 dark:to-violet-950/55 p-5 sm:p-6 text-white shadow-xl">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-          <div className="lg:col-span-7 flex flex-col justify-between gap-5">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+          <div className="flex flex-col justify-between gap-5 w-full">
             <div>
               <div className="flex items-center gap-2 text-xs text-cyan-300 font-medium">
                 <Calendar className="h-4 w-4" />
@@ -613,87 +613,12 @@ export const HomePage: React.FC<HomePageProps> = ({
               )}
             </div>
           </div>
-
-          {/* Right Column: Live Interactive 3D Physics Stage */}
-          <div className="lg:col-span-5 relative rounded-2xl border border-slate-700/70 bg-slate-950/75 overflow-hidden min-h-[210px] sm:min-h-[235px] flex flex-col justify-between">
-            <Physics3DScene
-              variant="hero"
-              preset={settings.background3dPreset ?? 'em-field'}
-              enabled={settings.background3dEnabled ?? true}
-              isDark={true}
-              accent={settings.accent}
-              className="absolute inset-0 w-full h-full"
-            />
-
-            <div className="relative z-10 px-3 py-2 flex items-center justify-between text-[11px] text-slate-300 pointer-events-none">
-              <span className="font-semibold tracking-tight">
-                {(settings.background3dPreset ?? 'em-field') === 'em-field'
-                  ? '3D Dipole Field & Flux'
-                  : '3D Quantum Wave & Orbitals'}
-              </span>
-              <span className="text-slate-400">Move pointer to inspect</span>
-            </div>
-
-            <div className="relative z-10 p-2.5 flex items-center justify-center">
-              <div className="inline-flex items-center gap-1 p-1 rounded-xl bg-slate-950/88 border border-slate-700/80">
-                <button
-                  type="button"
-                  onClick={() =>
-                    onUpdateSettings({
-                      background3dEnabled: true,
-                      background3dPreset: 'em-field',
-                    })
-                  }
-                  className={`min-h-[32px] px-2.5 rounded-lg text-[11px] font-semibold whitespace-nowrap transition-colors cursor-pointer ${
-                    (settings.background3dEnabled ?? true) &&
-                    (settings.background3dPreset ?? 'em-field') === 'em-field'
-                      ? 'bg-cyan-400 text-slate-950 font-bold'
-                      : 'text-slate-300 hover:text-white'
-                  }`}
-                >
-                  EM Field
-                </button>
-                <button
-                  type="button"
-                  onClick={() =>
-                    onUpdateSettings({
-                      background3dEnabled: true,
-                      background3dPreset: 'quantum-wave',
-                    })
-                  }
-                  className={`min-h-[32px] px-2.5 rounded-lg text-[11px] font-semibold whitespace-nowrap transition-colors cursor-pointer ${
-                    (settings.background3dEnabled ?? true) &&
-                    settings.background3dPreset === 'quantum-wave'
-                      ? 'bg-violet-400 text-slate-950 font-bold'
-                      : 'text-slate-300 hover:text-white'
-                  }`}
-                >
-                  Quantum Wave
-                </button>
-                <button
-                  type="button"
-                  onClick={() =>
-                    onUpdateSettings({
-                      background3dEnabled: !(settings.background3dEnabled ?? true),
-                    })
-                  }
-                  className={`min-h-[32px] px-2.5 rounded-lg text-[11px] font-semibold whitespace-nowrap transition-colors cursor-pointer ${
-                    !(settings.background3dEnabled ?? true)
-                      ? 'bg-slate-700 text-white font-bold'
-                      : 'text-slate-400 hover:text-slate-200'
-                  }`}
-                >
-                  {(settings.background3dEnabled ?? true) ? '3D Off' : '3D Paused'}
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
       {/* Metrics Row: Goal Ring, Streak, Mastery, Reviews */}
       <section className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <div className="rounded-2xl border studio-surface p-4 flex items-center gap-3.5 col-span-2 lg:col-span-1">
+        <MotionStudioSurface isDark={isDark} className="rounded-2xl border p-4 flex items-center gap-3.5 col-span-2 lg:col-span-1">
           {editingCardGoal ? (
             <form onSubmit={handleSaveGoalSettings} className="w-full space-y-2">
               <div className="flex items-center justify-between gap-2">
@@ -787,9 +712,9 @@ export const HomePage: React.FC<HomePageProps> = ({
               </div>
             </>
           )}
-        </div>
+        </MotionStudioSurface>
 
-        <div className="rounded-2xl border studio-surface p-4 flex flex-col justify-between">
+        <MotionStudioSurface isDark={isDark} className="rounded-2xl border p-4 flex flex-col justify-between">
           <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
             <span>Study Streak</span>
             <Flame className="h-4 w-4 text-amber-500" />
@@ -798,9 +723,9 @@ export const HomePage: React.FC<HomePageProps> = ({
             {streakDays} {streakDays === 1 ? 'day' : 'days'}
           </div>
           <div className="text-xs text-slate-500 dark:text-slate-400">Keep daily momentum</div>
-        </div>
+        </MotionStudioSurface>
 
-        <div className="rounded-2xl border studio-surface p-4 flex flex-col justify-between">
+        <MotionStudioSurface isDark={isDark} className="rounded-2xl border p-4 flex flex-col justify-between">
           <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
             <span>Formula Web Mastery</span>
             <Network className="h-4 w-4 text-cyan-500" />
@@ -809,9 +734,9 @@ export const HomePage: React.FC<HomePageProps> = ({
             {knownIds.length}/{FORMULAS.length}
           </div>
           <div className="text-xs text-emerald-600 dark:text-emerald-300 tabular-nums">{masteryPct}% marked known</div>
-        </div>
+        </MotionStudioSurface>
 
-        <div className="rounded-2xl border studio-surface p-4 flex flex-col justify-between">
+        <MotionStudioSurface isDark={isDark} className="rounded-2xl border p-4 flex flex-col justify-between">
           <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
             <span>Flashcards Today</span>
             <Layers className="h-4 w-4 text-violet-500" />
@@ -820,11 +745,11 @@ export const HomePage: React.FC<HomePageProps> = ({
             {todayReviewCount}
           </div>
           <div className="text-xs text-slate-500 dark:text-slate-400">Cards reviewed today</div>
-        </div>
+        </MotionStudioSurface>
       </section>
 
       {/* Weekly Study Trends Chart (Recharts) */}
-      <section className="rounded-2xl border studio-surface p-5 space-y-4">
+      <MotionStudioSurface as="section" isDark={isDark} className="rounded-2xl border p-5 space-y-4">
         <div className="flex items-center justify-between">
           <div>
             <div className="flex items-center gap-1.5 text-xs font-semibold text-cyan-600 dark:text-cyan-300">
@@ -859,10 +784,10 @@ export const HomePage: React.FC<HomePageProps> = ({
             </BarChart>
           </ResponsiveContainer>
         </div>
-      </section>
+      </MotionStudioSurface>
 
       {/* Customizable Today's Goal & Daily Tasks Panel */}
-      <section className="rounded-2xl border studio-surface p-4 sm:p-5 space-y-4">
+      <MotionStudioSurface as="section" isDark={isDark} className="rounded-2xl border p-4 sm:p-5 space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
@@ -1079,12 +1004,12 @@ export const HomePage: React.FC<HomePageProps> = ({
             ))}
           </ul>
         )}
-      </section>
+      </MotionStudioSurface>
 
       {/* Rank-Booster Daily Study Plan + Did You Know Physics Trivia */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         {/* Personalized Rank-Booster Daily Study Plan */}
-        <div className="lg:col-span-7 rounded-2xl border studio-surface p-5 flex flex-col justify-between space-y-4">
+        <MotionStudioSurface isDark={isDark} className="lg:col-span-7 rounded-2xl border p-5 flex flex-col justify-between space-y-4">
           <div className="flex flex-wrap items-start justify-between gap-2">
             <div>
               <div className="flex items-center gap-1.5 text-xs font-semibold text-cyan-600 dark:text-cyan-300">
@@ -1147,10 +1072,10 @@ export const HomePage: React.FC<HomePageProps> = ({
               </div>
             ))}
           </div>
-        </div>
+        </MotionStudioSurface>
 
         {/* Did You Know? Daily Random Physics Trivia */}
-        <div className="lg:col-span-5 rounded-2xl border studio-surface p-5 flex flex-col justify-between space-y-4">
+        <MotionStudioSurface isDark={isDark} className="lg:col-span-5 rounded-2xl border p-5 flex flex-col justify-between space-y-4">
           <div className="space-y-2.5">
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-1.5 text-xs font-semibold text-amber-600 dark:text-amber-300">
@@ -1193,12 +1118,12 @@ export const HomePage: React.FC<HomePageProps> = ({
               <ArrowRight className="h-3.5 w-3.5" />
             </button>
           </div>
-        </div>
+        </MotionStudioSurface>
       </section>
 
       {/* Formula of the Day + Quick Resume */}
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="rounded-2xl border studio-surface p-5 flex flex-col justify-between">
+        <MotionStudioSurface isDark={isDark} className="rounded-2xl border p-5 flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-1.5 text-xs font-semibold text-violet-600 dark:text-violet-300">
               <Sparkles className="h-4 w-4" />
@@ -1223,10 +1148,10 @@ export const HomePage: React.FC<HomePageProps> = ({
               <ArrowRight className="h-4 w-4" />
             </button>
           </div>
-        </div>
+        </MotionStudioSurface>
 
         {/* Quick Resume & Launchers */}
-        <div className="rounded-2xl border studio-surface p-5 flex flex-col justify-between space-y-4">
+        <MotionStudioSurface isDark={isDark} className="rounded-2xl border p-5 flex flex-col justify-between space-y-4">
           <div>
             <div className="text-xs font-semibold text-cyan-600 dark:text-cyan-300">Quick Resume</div>
             <h3 className="mt-1 text-lg font-semibold text-slate-900 dark:text-slate-100">
@@ -1295,11 +1220,11 @@ export const HomePage: React.FC<HomePageProps> = ({
               <span>Doubt Chat &amp; Friends</span>
             </button>
           </div>
-        </div>
+        </MotionStudioSurface>
       </section>
 
       {/* Core Physical Constants Strip */}
-      <section className="rounded-2xl border studio-surface p-4">
+      <MotionStudioSurface as="section" isDark={isDark} className="rounded-2xl border p-4">
         <div className="text-xs font-semibold text-slate-700 dark:text-slate-300 mb-3">
           Standard Constants (SI Units)
         </div>
@@ -1314,7 +1239,93 @@ export const HomePage: React.FC<HomePageProps> = ({
             </div>
           ))}
         </div>
-      </section>
+      </MotionStudioSurface>
+
+      {/* Educational Summary, Developer Attribution & Copyright Footer */}
+      <MotionStudioSurface as="footer" isDark={isDark} className="rounded-2xl border p-5 space-y-4">
+        <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+          <div className="space-y-1.5 max-w-2xl">
+            <div className="text-xs font-semibold text-cyan-600 dark:text-cyan-400">
+              About JEE Physics Web · Educational Platform
+            </div>
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              An interactive, distraction-free physics revision web designed for Class 11, Class 12, and IIT-JEE
+              (Main &amp; Advanced) students. Built to make concepts intuitive through interlinked formula maps,
+              3D simulations, short notes, spaced-repetition flashcards, and PYQ trap drills.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-medium text-slate-600 dark:text-slate-300 shrink-0">
+            <button
+              type="button"
+              onClick={() => onNavigate('about')}
+              className="hover:text-cyan-600 dark:hover:text-cyan-300 hover:underline underline-offset-4 cursor-pointer"
+            >
+              About
+            </button>
+            <button
+              type="button"
+              onClick={() => onNavigate('web')}
+              className="hover:text-cyan-600 dark:hover:text-cyan-300 hover:underline underline-offset-4 cursor-pointer"
+            >
+              Formula Web
+            </button>
+            <button
+              type="button"
+              onClick={() => onNavigate('notes')}
+              className="hover:text-cyan-600 dark:hover:text-cyan-300 hover:underline underline-offset-4 cursor-pointer"
+            >
+              Short Notes
+            </button>
+            <button
+              type="button"
+              onClick={() => onNavigate('settings')}
+              className="hover:text-cyan-600 dark:hover:text-cyan-300 hover:underline underline-offset-4 cursor-pointer"
+            >
+              Settings
+            </button>
+          </div>
+        </div>
+
+        <div className="pt-3 border-t border-slate-200/70 dark:border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px] text-slate-500 dark:text-slate-400">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <span>
+              Developed by{' '}
+              <strong className="text-slate-800 dark:text-slate-200 font-semibold">
+                {settings.developerName?.trim() || 'Kushal'}
+              </strong>
+            </span>
+            <span aria-hidden="true">·</span>
+            <a
+              href={`mailto:${settings.developerEmail?.trim() || 'kushalkj2009@gmail.com'}`}
+              className="hover:text-cyan-600 dark:hover:text-cyan-300 hover:underline underline-offset-2"
+            >
+              {settings.developerEmail?.trim() || 'kushalkj2009@gmail.com'}
+            </a>
+            {settings.developerPortfolio?.trim() && (
+              <>
+                <span aria-hidden="true">·</span>
+                <a
+                  href={
+                    settings.developerPortfolio.trim().startsWith('http')
+                      ? settings.developerPortfolio.trim()
+                      : `https://${settings.developerPortfolio.trim()}`
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-cyan-600 dark:hover:text-cyan-300 hover:underline underline-offset-2"
+                >
+                  Portfolio
+                </a>
+              </>
+            )}
+          </div>
+
+          <div>
+            &copy; {new Date().getFullYear()} JEE Physics Web. All rights reserved. For educational use only.
+          </div>
+        </div>
+      </MotionStudioSurface>
 
       {/* Self Profile Progress Modal opened from Home Top Strip */}
       {showProfileModal && (

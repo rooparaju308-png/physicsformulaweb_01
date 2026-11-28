@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import {
+  AlertTriangle,
   Bot,
   CheckCircle2,
   ClipboardCheck,
   Cloud,
   Code2,
   Download,
+  ExternalLink,
   Eye,
   EyeOff,
+  Globe,
   KeyRound,
   LogOut,
   RotateCcw,
@@ -16,6 +19,7 @@ import {
   Trash2,
   Upload,
   Users,
+  X,
 } from 'lucide-react';
 import { AccentPalette, AppSettings, AppTab, Background3DPreset, ThemeMode } from '../types/physics';
 import { PWAInstallButton } from '../components/PWAInstallButton';
@@ -54,6 +58,8 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
     profile,
     actionLoading,
     syncStatus,
+    authError,
+    clearAuthError,
     joinAsGuest,
     signInWithGmail,
     upgradeGuestToGmail,
@@ -207,6 +213,26 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
           </span>
         </div>
 
+        {authError && (
+          <div className="rounded-xl border border-rose-500/35 bg-rose-500/10 p-3.5 flex items-start justify-between gap-3 text-xs text-rose-700 dark:text-rose-300">
+            <div className="flex items-start gap-2.5">
+              <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5 text-rose-500" />
+              <div className="space-y-1">
+                <div className="font-bold">Authentication Notice</div>
+                <p className="leading-relaxed">{authError}</p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={clearAuthError}
+              className="p-1 hover:bg-rose-500/20 rounded-lg text-rose-400"
+              title="Dismiss notice"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        )}
+
         {user && profile ? (
           <div className="space-y-3">
             <div className="rounded-xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
@@ -274,6 +300,42 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
             </div>
           </div>
         )}
+
+        {/* Custom Domain & Vercel Authorization Info */}
+        <div className="rounded-xl border border-slate-200 dark:border-slate-800/80 bg-slate-50/70 dark:bg-slate-900/40 p-3.5 space-y-2 text-xs">
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <div className="flex items-center gap-1.5 font-semibold text-slate-800 dark:text-slate-200">
+              <Globe className="h-3.5 w-3.5 text-cyan-500" />
+              <span>Domain Authorization (Vercel &amp; Custom Hosting)</span>
+            </div>
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-300">
+              Project: hopeful-dragon-jrrhs
+            </span>
+          </div>
+          <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+            When deployed to <strong className="text-slate-700 dark:text-slate-300">physicsformulaweb-01.vercel.app</strong>, Firebase requires the domain to be listed in Authorized Domains to allow user login:
+          </p>
+          <div className="flex flex-wrap items-center gap-2 pt-0.5">
+            <a
+              href="https://console.firebase.google.com/project/hopeful-dragon-jrrhs/authentication/settings"
+              target="_blank"
+              rel="noreferrer"
+              className="px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-[11px] font-semibold text-cyan-600 dark:text-cyan-300 inline-flex items-center gap-1.5 hover:border-cyan-500/50 transition-colors"
+            >
+              <ExternalLink className="h-3 w-3" />
+              <span>Firebase Console → Authorized Domains</span>
+            </a>
+            <a
+              href="https://console.cloud.google.com/apis/credentials?project=hopeful-dragon-jrrhs"
+              target="_blank"
+              rel="noreferrer"
+              className="px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-[11px] font-semibold text-violet-600 dark:text-violet-300 inline-flex items-center gap-1.5 hover:border-violet-500/50 transition-colors"
+            >
+              <ExternalLink className="h-3 w-3" />
+              <span>Google Cloud → OAuth Credentials</span>
+            </a>
+          </div>
+        </div>
       </section>
 
       {/* AI Configuration (Browser-Only Custom Gemini Key) */}
